@@ -9,6 +9,8 @@ import { UserComponent } from './user/user.component';
 import { SearchComponent } from './search/search.component';
 import { CreateCollectionComponent } from './create-collection/create-collection.component';
 import { ManageCollectionComponent } from './manage-collection/manage-collection.component';
+import { CreateImageComponent } from './create-image/create-image.component';
+import { ManageImageComponent } from './manage-image/manage-image.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ManageCollectionComponent } from './manage-collection/manage-collection
     UserComponent,
     SearchComponent,
     CreateCollectionComponent,
-    ManageCollectionComponent
+    ManageCollectionComponent,
+    CreateImageComponent,
+    ManageImageComponent
   ],
   imports: [
     BrowserModule,

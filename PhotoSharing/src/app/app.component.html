@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      Firebase Photo Storage
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Select a file for upload:</h5>
+      <input type="file" (change)="upload($event)" accept=".png,.jpg" />
+      <br><br>
+            <br>
+            <div *ngIf="downloadURL | async; let downloadSrc" class="alert alert-info" role="alert">
+                File uploaded: <a [href]="downloadSrc">{{downloadSrc}}</a>
+            </div>
+            <br>
+    </div>
+  </div>
+</div>

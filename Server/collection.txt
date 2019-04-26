@@ -1,0 +1,13 @@
+//Data structure sketch for tag-relevant portion of collection DB object
+
+id : MongoIDthing
+name : String
+tags : Array
+
+Tag-relevant functions
+AddTag: Add tag's primary key to tags Array, check if tag exists, if yes call adder on tag, if no call constructor, then adder
+RemoveTag: Remove tags primary key from tags array, then call remover on tag
+Delete subcode - call remover on *every tag*
+
+//appears identical to picture for tagging purposes
+//Tags behave as special type of collections. consider code reuse

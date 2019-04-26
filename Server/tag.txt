@@ -1,0 +1,13 @@
+//THIS IS JUST A SKETCH OF DATA STRUCTURE
+
+id : MongoIDthing
+name : String
+pictures : Array //full of MongoIDs of pictures the tag is on
+collections : Array //full of MongoIDs of collections the tag is on
+
+Functions needed:
+Constructor, to add to DB
+Adder, for both pictures and collections - when a tag is added to one, call it on the tag passing in the ID
+Remover, for both pictures and collections - when a tag is removed or the thing is deleted, call it on the removed tag, or all tags, to remove the id from the array
+
+recommend use tag name as primary key, *not* the mongo_id. Name is already acting as key, simpler this way

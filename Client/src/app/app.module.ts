@@ -13,6 +13,7 @@ import { CreateImageComponent } from './create-image/create-image.component';
 import { ManageImageComponent } from './manage-image/manage-image.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
+import { TagComponent } from './tag/tag.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ManageUserComponent } from './manage-user/manage-user.component';
     CreateImageComponent,
     ManageImageComponent,
     RegisterUserComponent,
-    ManageUserComponent
+    ManageUserComponent,
+    TagComponent
   ],
   imports: [
     BrowserModule,

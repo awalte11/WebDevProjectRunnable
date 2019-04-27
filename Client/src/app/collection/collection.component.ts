@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { tag } from '../tag';
 import { Collection } from '../collection';
-import { CollectionService } from '../collection.service';
+import { DataService } from '../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ export class CollectionComponent implements OnInit {
 
   @Input() collection: Collection;
 
-  constructor( private route : ActivatedRoute, private router : Router , private collectionService: CollectionService) { }
+  constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
 
   
 
@@ -28,7 +28,7 @@ export class CollectionComponent implements OnInit {
   getCollection() : void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-        this.collection = this.collectionService.getCollection(id);
+        this.collection = this.dataService.getCollection(id);
         
     }
   }

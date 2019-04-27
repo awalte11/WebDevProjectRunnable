@@ -4,7 +4,7 @@ import { Collection } from './collection';
 @Injectable({
   providedIn: 'root'
 })
-export class CollectionService {
+export class DataService {
   public collections : Collection[];
 
 

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Collection } from './collection';
 import { tag } from './tag';
 import { picture } from './picture';
-import { CreateCollectionComponent } from './create-collection/create-collection.component';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +26,7 @@ export class DataService {
       this.CreateCollection("Cats Stalking", ["Cats", "Hunting Animals", "So Much Fluff", "Cuteness"])
       this.CreateCollection("Cats Booping", ["Cats", "Boops", "So Much Fluff", "Cuteness"])
       this.CreatePicture("Cat vs Bird", ["Cats", "Birds", "Hunting Animals", "So Much Fluff", "Fur Vs Feathers"])
+      this.AddPictureToCollection(this.getCollection(2), this.getPicture(1))
     }
     else {
     this.collections = JSON.parse(localStorage.getItem(this.collectionKey)) || new Array<Collection>();
@@ -40,6 +40,20 @@ export class DataService {
 
 
 
+  }
+
+  AddPictureToCollection(collection : Collection, picture : picture)
+  {
+    collection.pictures.push(picture);
+    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
+  }
+
+  removePictureFromCollection(collection : Collection, picture : picture)
+  {
+    const idToNuke = collection.pictures.findIndex(pict => pict.id == picture.id);
+    collection.pictures[idToNuke] = null;
+    collection.pictures = collection.pictures.filter(function(item) {return item != null});
+    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
   }
 
 
@@ -99,6 +113,9 @@ export class DataService {
     const toKill2 = tagToEdit.collections.findIndex(col => col.id == collection.id)
     tagToEdit.collections[toKill2] = null;
     tagToEdit.collections = tagToEdit.collections.filter(function(item) {return item != null});
+    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
+    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
+    
   }
 
   
@@ -108,7 +125,7 @@ export class DataService {
   CreatePicture(name : string, tags : string[])
   {
     let nextId: number;
-    nextId = 0;
+    nextId = 1;
     this.pictures.forEach(picture => {
         if (picture && picture.id >= nextId) {
             nextId = picture.id + 1;
@@ -158,6 +175,8 @@ export class DataService {
     const toKill2 = tagToEdit.pictures.findIndex(pict => pict.id == picture.id)
     tagToEdit.pictures[toKill2] = null;
     tagToEdit.pictures = tagToEdit.pictures.filter(function(item) {return item != null});
+    localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
+    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
   }
 
 
@@ -188,7 +207,6 @@ export class DataService {
 
   addTagToCollection(collection : Collection, tag : tag)
   {
-    console.log(tag.name);
     collection.tags.push(tag.name);
     tag.collections.push(collection);
 

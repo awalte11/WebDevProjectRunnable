@@ -13,6 +13,7 @@ export class CollectionComponent implements OnInit {
 
 
   @Input() collection: Collection;
+  
 
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
 

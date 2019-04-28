@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Collection } from './collection';
 import { tag } from './tag';
 import { picture } from './picture';
+import { CreateCollectionComponent } from './create-collection/create-collection.component';
 
 @Injectable({
   providedIn: 'root'
@@ -17,39 +18,13 @@ export class DataService {
 
 
   constructor() { 
-    this.collections = new Array<Collection>();
-    this.tags = new Array<tag>();
-    this.pictures = new Array<picture>();
-    this.collections = JSON.parse(localStorage.getItem(this.collectionKey));
-    this.tags = JSON.parse(localStorage.getItem(this.tagKey));
-    this.tags.forEach(tag => {
-      if (tag.collections === undefined)
-      {
-        tag.collections = []
-      }
-      if (tag.pictures === undefined)
-      {
-        tag.pictures = []
-      }
-    })
-    this.collections = JSON.parse(localStorage.getItem(this.pictureKey));
-     if (this.collections === null)
-    {
-      this.collections = new Array<Collection>();
-    }
-    if (this.tags === null)
-    {
-      this.tags = new Array<tag>();
-    }
-    if (this.pictures === null)
-    {
-      this.pictures = new Array<picture>();
-    }
-    if (this.collections.length <=1 )
-    {
-    this.CreateCollection("Cats Booping", ["Cats", "Boops", "So much fluff"]);
-    this.CreateCollection("Cats Sleeping", ["Cats", "Sleep Cute", "So much fluff"]);
-    }
+    this.collections = JSON.parse(localStorage.getItem(this.collectionKey)) || new Array<Collection>();
+    this.tags = JSON.parse(localStorage.getItem(this.tagKey)) || new Array<tag>();
+    this.pictures = JSON.parse(localStorage.getItem(this.pictureKey)) || new Array<picture>();
+
+    
+    
+    
 
 
 
@@ -91,6 +66,29 @@ export class DataService {
     return outCollection;
   }
 
+  DeleteCollection(id: number): void {
+    const idToNuke = this.collections.findIndex(collection => collection.id === id);
+    this.collections[idToNuke].tags.forEach(tagToKill => {
+      this.removeTagFromCollection(this.collections[idToNuke], tagToKill)
+
+    })
+    this.collections[idToNuke] = null;
+    this.collections = this.collections.filter(function(item) {return item != null});
+    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
+  }
+
+  removeTagFromCollection(collection : Collection, tag : string)
+  {
+    const toKill = collection.tags.findIndex(tagInColl => tagInColl == tag);
+    collection.tags[toKill] = null;
+    collection.tags = collection.tags.filter(function(item) {return item != null});
+    const tagToEdit = this.getTag(tag)
+    const toKill2 = tagToEdit.collections.findIndex(col => col.id == collection.id)
+    tagToEdit.collections[toKill2] = null;
+    tagToEdit.collections = tagToEdit.collections.filter(function(item) {return item != null});
+  }
+
+
 
 
 
@@ -125,6 +123,28 @@ export class DataService {
       outPicture = this.pictures.find(pictures => pictures.id === id);
 
     return outPicture;
+  }
+
+  DeletePicture(id: number): void {
+    const idToNuke = this.pictures.findIndex(picture => picture.id === id);
+    this.pictures[idToNuke].tags.forEach(tagToKill => {
+      this.removeTagFromPicture(this.pictures[idToNuke], tagToKill)
+
+    })
+    this.pictures[idToNuke] = null;
+    this.pictures = this.pictures.filter(function(item) {return item != null});
+    localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
+  }
+
+  removeTagFromPicture(picture : picture, tag : string)
+  {
+    const toKill = picture.tags.findIndex(tagInPict => tagInPict == tag);
+    picture.tags[toKill] = null;
+    picture.tags = picture.tags.filter(function(item) {return item != null});
+    const tagToEdit = this.getTag(tag)
+    const toKill2 = tagToEdit.pictures.findIndex(pict => pict.id == picture.id)
+    tagToEdit.pictures[toKill2] = null;
+    tagToEdit.pictures = tagToEdit.pictures.filter(function(item) {return item != null});
   }
 
 

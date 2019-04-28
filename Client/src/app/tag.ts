@@ -7,10 +7,8 @@ export class tag
 	pictures : picture[];
 	collections : Collection[];
 	
-	constructor()
+	constructor()//it would be preferable to have the constructor initialized the arrays and add the name but JS cannot into data storage object constructors
 	{
-		this.pictures = new Array<picture>();
-		this.collections = new Array<Collection>();
 	}
 	
 }

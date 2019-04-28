@@ -73,13 +73,7 @@ export class DataService {
     newCollection.id = nextId;
     newCollection.tags = new Array<string>();
     tags.forEach(tagId => {
-      if (this.tagExists(tagId))
-      {
-        this.addTagToCollection(newCollection, this.getTag(tagId))
-      }
-      else{
-        this.addTagToCollection(newCollection, this.CreateTag(tagId))
-      }
+      this.addTagToCollection(newCollection, tagId)
     });
     this.collections.push(newCollection);
     localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
@@ -183,8 +177,10 @@ export class DataService {
 
   CreateTag(name : string) : tag{
     let newTag : tag;
-    newTag = new tag();
+    newTag = new tag(); //this SHOULD be initializing the below arrays but isn't.
     newTag.name = name;
+    newTag.collections = new Array<Collection>();//these go here because JS constructors are shit
+    newTag.pictures = new Array<picture>();
     this.tags.push(newTag);
     localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
     return newTag;
@@ -205,10 +201,20 @@ export class DataService {
     return outTag;
   }
 
-  addTagToCollection(collection : Collection, tag : tag)
+  addTagToCollection(collection : Collection, tagId : string)
   {
+    var tag : tag;
+    if (this.tagExists(tagId))
+    {
+      tag = this.getTag(tagId);
+    }
+    else{
+      tag = this.CreateTag(tagId);
+    }
     collection.tags.push(tag.name);
     tag.collections.push(collection);
+    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
+    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
 
   }
 

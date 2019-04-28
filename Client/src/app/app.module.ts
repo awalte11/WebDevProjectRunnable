@@ -15,6 +15,7 @@ import { RegisterUserComponent } from './register-user/register-user.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
 import { TagComponent } from './tag/tag.component';
 import { FrontPageComponent } from './front-page/front-page.component';
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -30,10 +31,12 @@ import { FrontPageComponent } from './front-page/front-page.component';
     RegisterUserComponent,
     ManageUserComponent,
     TagComponent,
+    
     FrontPageComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],

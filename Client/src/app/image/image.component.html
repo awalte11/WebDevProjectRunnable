@@ -1,10 +1,11 @@
 <p>
-  image works!
+  Image!
 </p>
 
 
 {{picture.name}}
 
-<div *ngFor = "let tag of picture.tags">
-  {{ tag }}
+<div *ngIf="details">
+  <p *ngFor = "let tag of picture.tags">
+    {{ tag }}</p>
 </div>

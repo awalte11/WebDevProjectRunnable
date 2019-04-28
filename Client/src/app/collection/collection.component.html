@@ -12,5 +12,6 @@ Tags
 Pictures
 
 <div *ngFor = "let picture of collection.pictures">
-  {{ picture.name }}
+  {{picture.name}}
+  <app-image [picture]="picture" [details]=false></app-image>
 </div>

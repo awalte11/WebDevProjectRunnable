@@ -129,13 +129,7 @@ export class DataService {
     newPicture = new picture(name);
     newPicture.id = nextId;
     tags.forEach(tagId => {
-      if (this.tagExists(tagId))
-      {
-        this.addTagToPicture(newPicture, this.getTag(tagId))
-      }
-      else{
-        this.addTagToPicture(newPicture, this.CreateTag(tagId))
-      }
+      this.addTagToPicture(newPicture, tagId)
     });
     this.pictures.push(newPicture);
     localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
@@ -220,12 +214,21 @@ export class DataService {
 
 
 
-  addTagToPicture(picture : picture, tag : tag)
+  addTagToPicture(picture : picture, tagId : string)
   {
+    var tag : tag;
+    if (this.tagExists(tagId))
+    {
+      tag = this.getTag(tagId);
+    }
+    else{
+      tag = this.CreateTag(tagId);
+    }
     picture.tags.push(tag.name);
     tag.pictures.push(picture);
+    localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
+    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
 
   }
-
 
 }

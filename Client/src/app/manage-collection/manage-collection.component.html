@@ -11,11 +11,18 @@ Tags
 </div>
 
 <label>New Tags: 
-    <input [(ngModel)]="newTags" placeholder="desc"/>
+    <input [(ngModel)]="newTags" placeholder=""/>
 
 </label>
 
 <button (click)="AddTags()">Add Tags</button>
+
+<label>Remove Tags: 
+    <input [(ngModel)]="killTags" placeholder=""/>
+
+</label>
+
+<button (click)="KillTagsParse()">Kill These Tags</button>
 
 Pictures
 

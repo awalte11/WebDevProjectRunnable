@@ -12,6 +12,7 @@ export class ManageCollectionComponent implements OnInit {
 
   @Input() collection: Collection;
   newTags: string;
+  killTags: string;
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
 
   
@@ -42,5 +43,24 @@ export class ManageCollectionComponent implements OnInit {
     )
 
   }
+
+  KillTagsParse() : void {
+    var killList : string[];
+    killList  = this.killTags.split(",");
+    killList.forEach(s => {
+      if (this.collection.tags.includes(s))
+      {
+        this.dataService.removeTagFromCollection(this.collection, s);
+      }
+    })
+    
+    
+
+  }
+
+
+
+
+
 
 }

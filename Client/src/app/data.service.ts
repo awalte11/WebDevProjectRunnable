@@ -17,10 +17,23 @@ export class DataService {
 
 
   constructor() { 
+    this.collections = new Array<Collection>();
+    this.tags = new Array<tag>();
+    this.pictures = new Array<picture>();
     this.collections = JSON.parse(localStorage.getItem(this.collectionKey));
     this.tags = JSON.parse(localStorage.getItem(this.tagKey));
+    this.tags.forEach(tag => {
+      if (tag.collections === undefined)
+      {
+        tag.collections = []
+      }
+      if (tag.pictures === undefined)
+      {
+        tag.pictures = []
+      }
+    })
     this.collections = JSON.parse(localStorage.getItem(this.pictureKey));
-    if (this.collections === null)
+     if (this.collections === null)
     {
       this.collections = new Array<Collection>();
     }
@@ -43,6 +56,7 @@ export class DataService {
 
   }
   //This code is all shamelessly borrowed from my assignment 5. so that when I merge that I know how to merge this too
+  //Collection
   CreateCollection(name : string, tags : string[])
   {
     let nextId: number;
@@ -53,22 +67,21 @@ export class DataService {
         }
     });
     let newCollection : Collection;
-    newCollection = new Collection();
-    newCollection.name = name;
+    newCollection = new Collection(name);
     newCollection.id = nextId;
-    newCollection.tags = new Array<tag>();
+    newCollection.tags = new Array<string>();
     tags.forEach(tagId => {
-      if (this.checkForTag(tagId))
+      if (this.tagExists(tagId))
       {
-        newCollection.tags.push(this.getTag(tagId))
+        this.addTagToCollection(newCollection, this.getTag(tagId))
       }
       else{
-        newCollection.tags.push(this.CreateTag(tagId))
+        this.addTagToCollection(newCollection, this.CreateTag(tagId))
       }
     });
     this.collections.push(newCollection);
     localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
-
+    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
   }
 
   getCollection(id: number): Collection{
@@ -77,6 +90,9 @@ export class DataService {
 
     return outCollection;
   }
+
+
+
 
   CreatePicture(name : string, tags : string[])
   {
@@ -88,20 +104,20 @@ export class DataService {
         }
     });
     let newPicture : picture;
-    newPicture = new picture();
-    newPicture.name = name;
+    newPicture = new picture(name);
     newPicture.id = nextId;
     tags.forEach(tagId => {
-      if (this.checkForTag(tagId))
+      if (this.tagExists(tagId))
       {
-        newPicture.tags.push(this.getTag(tagId))
+        this.addTagToPicture(newPicture, this.getTag(tagId))
       }
       else{
-        newPicture.tags.push(this.CreateTag(tagId))
+        this.addTagToPicture(newPicture, this.CreateTag(tagId))
       }
     });
     this.pictures.push(newPicture);
     localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
+    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
   }
 
   getPicture(id: number): picture{
@@ -110,6 +126,9 @@ export class DataService {
 
     return outPicture;
   }
+
+
+
   CreateTag(name : string) : tag{
     let newTag : tag;
     newTag = new tag();
@@ -119,7 +138,9 @@ export class DataService {
     return newTag;
   }
 
-  checkForTag(id : string): Boolean
+  
+
+  tagExists(id : string): Boolean
   {
     return !(this.tags.find(tag => tag.name === id) === undefined);
 
@@ -132,7 +153,22 @@ export class DataService {
     return outTag;
   }
 
+  addTagToCollection(collection : Collection, tag : tag)
+  {
+    console.log(tag.name);
+    collection.tags.push(tag.name);
+    tag.collections.push(collection);
 
+  }
+
+
+
+  addTagToPicture(picture : picture, tag : tag)
+  {
+    picture.tags.push(tag.name);
+    tag.pictures.push(picture);
+
+  }
 
 
 }

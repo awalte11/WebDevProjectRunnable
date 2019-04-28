@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { tag } from '../tag';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-front-page',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FrontPageComponent implements OnInit {
 
-  constructor() { }
+  constructor( ) { }
+
+  
 
   ngOnInit() {
+    
   }
 
 }

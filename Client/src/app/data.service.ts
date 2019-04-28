@@ -15,13 +15,24 @@ export class DataService {
   collectionKey = 'collections';
   tagKey = 'tags';
   pictureKey = 'pictures';
-
+  testReset = false;
 
   constructor() { 
+    if (this.testReset)
+    {
+      this.collections = new Array<Collection>();
+      this.pictures = new Array<picture>();
+      this.tags = new Array<tag>();
+      this.CreateCollection("Cats Sleeping", ["Cats", "Sleeping Animals", "So Much Fluff", "Cuteness"])
+      this.CreateCollection("Cats Stalking", ["Cats", "Hunting Animals", "So Much Fluff", "Cuteness"])
+      this.CreateCollection("Cats Booping", ["Cats", "Boops", "So Much Fluff", "Cuteness"])
+      this.CreatePicture("Cat vs Bird", ["Cats", "Birds", "Hunting Animals", "So Much Fluff", "Fur Vs Feathers"])
+    }
+    else {
     this.collections = JSON.parse(localStorage.getItem(this.collectionKey)) || new Array<Collection>();
     this.tags = JSON.parse(localStorage.getItem(this.tagKey)) || new Array<tag>();
     this.pictures = JSON.parse(localStorage.getItem(this.pictureKey)) || new Array<picture>();
-
+    }
     
     
     
@@ -30,12 +41,14 @@ export class DataService {
 
 
   }
+
+
   //This code is all shamelessly borrowed from my assignment 5. so that when I merge that I know how to merge this too
   //Collection
   CreateCollection(name : string, tags : string[])
   {
     let nextId: number;
-    nextId = 0;
+    nextId = 1;
     this.collections.forEach(collection => {
         if (collection && collection.id >= nextId) {
             nextId = collection.id + 1;
@@ -88,7 +101,7 @@ export class DataService {
     tagToEdit.collections = tagToEdit.collections.filter(function(item) {return item != null});
   }
 
-
+  
 
 
 
@@ -168,7 +181,7 @@ export class DataService {
 
   getTag(name: string): tag{
     let outTag: tag;
-      outTag = this.tags.find(tag => tag.name === name);
+      outTag = this.tags.find(tag => tag.name == name);
 
     return outTag;
   }

@@ -1,0 +1,4 @@
+/tags - for tags db
+/pictures - for pictures
+/collections - for collections
+/users for users

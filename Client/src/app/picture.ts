@@ -1,0 +1,9 @@
+export class picture
+{
+	//Stub of picture, no vars for non-tag implementation, just for setting up tags
+	id : string; //unavoidable, no viable primary key but this
+	name : string;
+	tags : Array;
+
+	
+}

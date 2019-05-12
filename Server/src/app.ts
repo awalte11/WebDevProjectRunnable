@@ -1,16 +1,16 @@
 import { MongoClient } from "mongodb";
-import { ItemsDatastore } from "./datastore";
+import { EverythingDatastore } from "./datastore";
 import * as express from 'express';
 import * as morgan from 'morgan';
 import { Request, Response } from 'express';
 
 const bodyParser = require('body-parser');
 //Connects to datastore
-ItemsDatastore
+EverythingDatastore
   .connect()
   .then((client: MongoClient) => {
-    const itemsDatastore = new ItemsDatastore(client);
-    startServer(itemsDatastore);
+    const everythingDatastore = new EverythingDatastore(client);
+    startServer(everythingDatastore);
     console.log('started');
   })
   .catch(error => {
@@ -18,7 +18,7 @@ ItemsDatastore
     process.exit();
   });;
 //starts express server
-function startServer(itemsDatastore: ItemsDatastore) {
+function startServer(everythingDatastore: EverythingDatastore) {
   const app = express();
 
   app.use(morgan('dev'));

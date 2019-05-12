@@ -2,14 +2,18 @@ import { Collection, MongoClient, ObjectId } from 'mongodb';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const URL = process.env.MONGO_CONNECTION || '';
+const URL = process.env.URL || '';
 
-export class ItemsDatastore {
-  items: Collection;
+export class EverythingDatastore {
+  tags: Collection;
+  collections: Collection;
+  pictures: Collection;
   temp: ObjectId;
 
   constructor(client: MongoClient) {
-    this.items = client.db().collection('items');
+    this.tags = client.db("imageShare").collection('tags');
+    this.collections = client.db("imageShare").collection('collections');
+    this.pictures = client.db("imageShare").collection('pictures');
   }
 //connects to mongodb
   static async connect() {

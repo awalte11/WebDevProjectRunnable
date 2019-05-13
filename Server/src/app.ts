@@ -1,7 +1,7 @@
 import { MongoClient, ObjectId, MongoError } from "mongodb";
 import { EverythingDatastore } from "./datastore";
 import * as express from 'express';
-import * as morgan from 'morgan';
+//import * as morgan from 'morgan'; //Uncomment when debuging, TS is throwing heisenbugs
 import * as cors from 'cors';
 import { Request, Response } from 'express';
 
@@ -27,7 +27,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
   var port = process.env.PORT || 5000;
 
 
-  app.use(morgan('dev'));
+//  app.use(morgan('dev'));//Uncomment when debuging, TS is throwing heisenbugs
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());

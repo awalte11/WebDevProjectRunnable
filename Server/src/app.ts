@@ -83,8 +83,8 @@ function startServer(everythingDatastore: EverythingDatastore) {
   app.get('/api/collectionsbytag/:name', async (request: Request, response: Response, next) => {
     const name = request.params.name;
     try {
-      const tag = await everythingDatastore.readOneTag(name);
-      if (tag == null)//because *somehow* catch isn't working. damnit js.
+      const collections = await everythingDatastore.readTaggedCollections(name);
+      if (collections == null)//because *somehow* catch isn't working. damnit js.
         {
           response.status(404).json({
            "paramaterName" : "name",
@@ -94,7 +94,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
        }
        else
        {
-        const collections = await everythingDatastore.readTaggedCollections(name);
+        
 
         response.json( collections );
        }
@@ -134,12 +134,13 @@ function startServer(everythingDatastore: EverythingDatastore) {
     }
   });
 
+  
+
   app.get('/api/pictures/:id', async (request: Request, response: Response, next) => {
      const id = request.params.id;
      
      try {
-       var newID;
-       newID = new ObjectId(id)
+
        const tag = await everythingDatastore.readOnePicture(id);
       console.log("Tag is :" + tag);
       if (tag == null)//because *somehow* catch isn't working. damnit js.
@@ -168,9 +169,8 @@ function startServer(everythingDatastore: EverythingDatastore) {
   app.get('/api/collections/:id', async (request: Request, response: Response, next) => {
     const id = request.params.id;
     try {
-      var newID;
-      newID = new ObjectId(id)
-      const tag = await everythingDatastore.readOneCollection(newID);
+
+      const tag = await everythingDatastore.readOneCollection(id);
       if (tag == null)//because *somehow* catch isn't working. damnit js.
         {
           response.status(404).json({
@@ -227,6 +227,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
   app.post('/api/pictures', async (request, response) => {
     console.log("post");
     const name = request.body.name;  
+    const user = request.body.user;
     const comment = request.body.comment || "";
     const address = request.body.address;  
     const tags : string[] = request.body.tags || [];
@@ -248,7 +249,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     }
     else {
       
-        var out = await everythingDatastore.createPicture(name, comment, address, tags);
+        var out = await everythingDatastore.createPicture(name, user, comment, address, tags);
         console.log (out._id);
 
         tags.forEach(async element => {
@@ -273,6 +274,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     console.log("post collection");
     const name = request.body.name;
     const comment = request.body.comment || "";
+    const user = request.body.user;
     const pictures = request.body.pictures || [];
     const tags : string[] = request.body.tags || [];
     if(!name || name == "" )
@@ -285,7 +287,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     }
     else {
       
-        var out = await everythingDatastore.createCollection(name, comment, pictures, tags);
+        var out = await everythingDatastore.createCollection(name, user, comment, pictures, tags);
         console.log (out._id);
         tags.forEach(async element => {
           var tagCheck = await everythingDatastore.readOneTag(element);
@@ -485,6 +487,8 @@ function startServer(everythingDatastore: EverythingDatastore) {
       }).send();
     }
   });
+
+  
 
 
 

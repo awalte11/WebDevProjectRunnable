@@ -9,6 +9,7 @@ export class EverythingDatastore {
   tags: Collection;
   collections: Collection;
   pictures: Collection;
+ 
   
 
 
@@ -18,6 +19,7 @@ export class EverythingDatastore {
     this.tags = client.db("imageShare").collection('tags');
     this.collections = client.db("imageShare").collection('collections');
     this.pictures = client.db("imageShare").collection('pictures');
+    
   }
 //connects to mongodb
   static async connect() {
@@ -42,6 +44,8 @@ export class EverythingDatastore {
     return await this.collections.find({}).toArray();
   }
 
+
+
   async readTaggedPictures(tag : string) {
     return await this.pictures.find({tags : tag }).toArray();
   }
@@ -50,19 +54,19 @@ export class EverythingDatastore {
     return await this.collections.find({ tags : tag }).toArray();
   }
   
-  async readOneTag (name: string) {
+  async readOneTag (nameIn: string) {
    
-    return await this.pictures.findOne({name : { $eq : name}})
+    return await this.pictures.findOne({name :  nameIn})
     
   }
 
-  async readOnePicture(id: ObjectId) {
-    return await this.pictures.findOne({id})
+  async readOnePicture(id: string) {
+    return await this.pictures.findOne({_id : new ObjectId(id)})
   }
 
-  async readOneCollection(id: ObjectId) {
+  async readOneCollection(id: string) {
     
-    return await this.collections.findOne({id})
+    return await this.collections.findOne({_id : new ObjectId(id)})
       
     
   }
@@ -111,10 +115,11 @@ export class EverythingDatastore {
   
 
   
-  async createPicture(name: string, comment: string, address : string, tags : string[] ) {
+  async createPicture(name: string, user: string, comment: string, address : string, tags : string[] ) {
 
     var newPicture = {
       name : name,
+      user : user || "unimplemented",
       comment : comment,
       address : address,
       tags : tags
@@ -123,10 +128,11 @@ export class EverythingDatastore {
     return test.ops[0];
   }
 
-  async createCollection(name: string, comment: string, pictures : String[], tags : string[] ) {
+  async createCollection(name: string, user: string, comment: string, pictures : String[], tags : string[] ) {
 
     var newCollection = {
       name : name,
+      user : user || "unimplemented",
       comment : comment,
       tags : tags,
       pictures : pictures

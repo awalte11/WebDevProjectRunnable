@@ -2,6 +2,7 @@ import { MongoClient, ObjectId, MongoError } from "mongodb";
 import { EverythingDatastore } from "./datastore";
 import * as express from 'express';
 import * as morgan from 'morgan';
+import * as cors from 'cors';
 import { Request, Response } from 'express';
 
 
@@ -23,12 +24,28 @@ EverythingDatastore
 function startServer(everythingDatastore: EverythingDatastore) {
   const app = express();
 
+  var port = process.env.PORT || 5000;
+
+
   app.use(morgan('dev'));
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
-  const port = process.env.PORT || 5000;
+  
+  //listens on port 3000
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+
+  app.use(cors({credentials: true, origin: true}));
+  app.use(function(request, response, next) {
+    response.header("Access-Control-Allow-Origin", '*');
+    response.header("Access-Control-Allow-Credentials", 'true');
+    response.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+    response.header("Access-Control-Allow-Headers", 'Origin, X-Requested-With, Content-Type, Accept, content-type, application/json');
+    next();
+});
 
   app.get('/api/tags', async (request: Request, response: Response, next) => {
     const tags = await everythingDatastore.readAllTags();
@@ -492,8 +509,5 @@ function startServer(everythingDatastore: EverythingDatastore) {
 
 
 
-//listens on port 3000
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+
 }

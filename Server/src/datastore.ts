@@ -41,6 +41,14 @@ export class EverythingDatastore {
   async readAllCollections() {
     return await this.collections.find({}).toArray();
   }
+
+  async readTaggedPictures(tag : string) {
+    return await this.pictures.find({tags : tag }).toArray();
+  }
+
+  async readTaggedCollections(tag : string) {
+    return await this.collections.find({ tags : tag }).toArray();
+  }
   
   async readOneTag (name: string) {
    
@@ -66,6 +74,7 @@ export class EverythingDatastore {
   }*/
 
   async deletePicture(id: string) {
+    await this.collections.updateMany({}, {$pull : {pictures : id}})
     const test = await this.pictures.deleteOne({ _id: new ObjectId(id) });
   }
 
@@ -86,17 +95,15 @@ export class EverythingDatastore {
     return await this.pictures.updateOne({ _id: id }, updateInfo);
   }
 
-  async updateCollection(id: string, updateInfo : any) {
+  async updateCollection(id: ObjectId, updateInfo : any) {
     
-    return await this.collections.updateOne({ _id: new ObjectId(id) }, updateInfo);
+    return await this.collections.updateOne({ _id: id }, updateInfo);
   }
 
  async createTag(name: string) {
 
     var newTag = {
-      name : name,
-      pictures : [],
-      collections : []
+      name : name
     }
     var test = await this.tags.insertOne( newTag );
     return test.ops[0];

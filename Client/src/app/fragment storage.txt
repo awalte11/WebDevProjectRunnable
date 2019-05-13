@@ -1,0 +1,13 @@
+  removeTagFromCollection(collection : Collection, tag : tag)
+  {
+    const toKill = collection.tags.findIndex(tagInColl => tagInColl == tag);
+
+  }
+
+    DeleteCollection(id: number): void {
+    const idToNuke = this.collections.findIndex(collection => collection.id === id);
+    this.collections[idToNuke] = null;
+    this.collections = this.collections.filter(function(item) {return item != null});
+    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
+}
+

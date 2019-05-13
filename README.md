@@ -1,2 +1,11 @@
-<script>window.location = "https://tucosc484.github.io/final-project-project-alexw_jacob_scott_badal/Client/src/app/app.component.html";
-</script>
+
+Jacob Lohr
+Alex Walters
+Badal Chalise
+Scott Guthier
+
+Current Heroku address: https://project-tester.herokuapp.com/
+
+Currently implemented user stories:
+None are complete on front and back end
+

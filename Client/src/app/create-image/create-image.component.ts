@@ -46,7 +46,7 @@ export class CreateImageComponent implements OnInit {
     }
     let file: File = files[0];
 
-    this.imageService.uploadFile('./upload', file)
+    this.imageService.uploadFile('./api/pictures', file)
       .subscribe(
         event => {
             /*

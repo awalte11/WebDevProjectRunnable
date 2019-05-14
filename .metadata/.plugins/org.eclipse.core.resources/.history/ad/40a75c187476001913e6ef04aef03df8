@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en">
+<p>
+  Upload images
+  <input type="file" (change)= fileEvent($event)>
+</p>
+</html>

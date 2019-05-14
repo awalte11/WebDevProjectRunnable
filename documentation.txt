@@ -62,7 +62,7 @@ POSTS:
 
 request body MUST include
 	name - containing the picture name
-	address - containing the refernce to the picture, this is for the NYI FireBase setup
+	picture - image file. This is for the NYI firebase setup
 	
 May include:
 	comment - user commentary

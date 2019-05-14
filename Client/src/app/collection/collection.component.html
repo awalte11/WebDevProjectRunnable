@@ -1,3 +1,17 @@
 <p>
   collection works!
 </p>
+
+{{collection.name}}
+
+Tags
+<div *ngFor = "let tag of collection.tags">
+  {{ tag }}
+</div>
+
+Pictures
+
+<div *ngFor = "let picture of collection.pictures">
+  {{picture.name}}
+  <app-image [picture]="picture" [details]=false></app-image>
+</div>

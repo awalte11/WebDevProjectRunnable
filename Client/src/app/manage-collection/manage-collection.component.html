@@ -1,3 +1,33 @@
 <p>
   manage-collection works!
 </p>
+
+{{collection.name}}
+
+Tags
+<div *ngFor = "let tag of collection.tags">
+  {{ tag }}
+  
+</div>
+
+<label>New Tags: 
+    <input [(ngModel)]="newTags" placeholder=""/>
+
+</label>
+
+<button (click)="AddTags()">Add Tags</button>
+
+<label>Remove Tags: 
+    <input [(ngModel)]="killTags" placeholder=""/>
+
+</label>
+
+<button (click)="KillTagsParse()">Kill These Tags</button>
+
+Pictures
+
+<div *ngFor = "let picture of collection.pictures">
+  {{picture.name}}
+  <app-image [picture]="picture" [details]=false></app-image>
+</div>
+

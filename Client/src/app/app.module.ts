@@ -14,6 +14,7 @@ import { ManageImageComponent } from './manage-image/manage-image.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
 import { TagComponent } from './tag/tag.component';
+import {ImageService} from './create-image/Image.service'
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { TagComponent } from './tag/tag.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ImageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

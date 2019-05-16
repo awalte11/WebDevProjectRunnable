@@ -1,7 +1,8 @@
 import { MongoClient, ObjectId, MongoError } from "mongodb";
 import { EverythingDatastore } from "./datastore";
 import * as express from 'express';
-import * as morgan from 'morgan';
+//import * as morgan from 'morgan'; //Uncomment when debuging, TS is throwing heisenbugs
+import * as cors from 'cors';
 import { Request, Response } from 'express';
 
 
@@ -23,12 +24,28 @@ EverythingDatastore
 function startServer(everythingDatastore: EverythingDatastore) {
   const app = express();
 
-  app.use(morgan('dev'));
+  var port = process.env.PORT || 5000;
+
+
+//  app.use(morgan('dev'));//Uncomment when debuging, TS is throwing heisenbugs
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
-  const port = process.env.PORT || 5000;
+  
+  //listens on port 3000
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+
+  app.use(cors({credentials: true, origin: true}));
+  app.use(function(request, response, next) {
+    response.header("Access-Control-Allow-Origin", '*');
+    response.header("Access-Control-Allow-Credentials", 'true');
+    response.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+    response.header("Access-Control-Allow-Headers", 'Origin, X-Requested-With, Content-Type, Accept, content-type, application/json');
+    next();
+});
 
   app.get('/api/tags', async (request: Request, response: Response, next) => {
     const tags = await everythingDatastore.readAllTags();
@@ -37,7 +54,8 @@ function startServer(everythingDatastore: EverythingDatastore) {
   });
 
   app.get('/api/pictures', async (request: Request, response: Response, next) => {
-    const pictures = await everythingDatastore.readAllPictures();
+    var pictures = await everythingDatastore.readAllPictures();
+    pictures.forEach(pict => {pict.picture = null});
     console.log("getting pictures");
     console.log(pictures.length);
     response.json( pictures );
@@ -54,7 +72,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
   app.get('/api/picturesbytag/:name', async (request: Request, response: Response, next) => {
     const name = request.params.name;
     try {
-      const pictures = await everythingDatastore.readTaggedPictures(name);
+      var pictures = await everythingDatastore.readTaggedPictures(name);
       if (pictures == null)//because *somehow* catch isn't working. damnit js.
         {
           response.status(404).json({
@@ -66,7 +84,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
        else
        {
         
-
+        pictures.forEach(pict => {pict.picture = null});
         response.json( pictures );
        }
          
@@ -122,6 +140,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
            });
        }
        else{
+        
         response.json({ tag });
        }
       } catch (error) {
@@ -229,7 +248,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     const name = request.body.name;  
     const user = request.body.user;
     const comment = request.body.comment || "";
-    const address = request.body.address;  
+    const picture = request.body.picture;  
     const tags : string[] = request.body.tags || [];
     if(!name || name == "" )
     {
@@ -239,17 +258,16 @@ function startServer(everythingDatastore: EverythingDatastore) {
             "errorText" : "Name must not be null or empty."
         })
     }
-    else if(!address || address == "" )
+    else if(!picture || picture == "" )
     {
       response.status(400).json({
-            "paramaterName" : "address",
-            "paramaterValue" : address,
-            "errorText" : "address must not be null or empty."
+            "paramaterName" : "picture",
+            "paramaterValue" : picture,
+            "errorText" : "picture must not be null or empty."
         })
     }
     else {
-      
-        var out = await everythingDatastore.createPicture(name, user, comment, address, tags);
+        var out = await everythingDatastore.createPicture(name, user, comment, picture, tags);
         console.log (out._id);
 
         tags.forEach(async element => {
@@ -492,8 +510,5 @@ function startServer(everythingDatastore: EverythingDatastore) {
 
 
 
-//listens on port 3000
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+
 }

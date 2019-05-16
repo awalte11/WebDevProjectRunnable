@@ -1,0 +1,125 @@
+All API routes must be preceded by address of app. Current address is: https://project-tester.herokuapp.com/
+
+Routes
+
+GETS:
+
+/api/tags
+Gets all tags as JSON array
+
+---
+
+/api/pictures
+
+Gets all pictures as JSON array
+
+---
+
+/api/collections
+
+Gets all collections as JSON array
+
+----
+
+/api/picturesbytag/:name
+EX /api/pictures/Kitty!
+
+Gets all pictures with tag :name attached as JSON array
+
+---
+
+/api/collectionsbytag/:name
+EX /api/collections/Kitty!
+
+Gets all collections with tag :name attached as JSON array
+
+---
+
+/api/tags/:name
+
+gets the named tag.
+Basically pointless
+
+---
+
+/api/pictures/:id
+gets the picture with that ID.
+Note that these are crazy long strings
+
+----
+
+/api/collections/:id
+gets the collection with that ID.
+Note that these are crazy long strings
+
+
+------------------
+POSTS:
+
+
+
+/api/pictures
+
+request body MUST include
+	name - containing the picture name
+	picture - image file. This is for the NYI firebase setup
+	
+May include:
+	comment - user commentary
+	user - who is posting, will be mandatory *if* implemented
+	tags - tags in String array format
+
+---
+
+/api/collections
+
+request body MUST include
+	name - containing the collection name
+
+	
+May include:
+	comment - user commentary
+	user - who is posting, will be mandatory *if* implemented
+	tags - tags in String array format
+	pictures - tags in mongoID array format, generate through UI selection of pictures
+	
+----------------
+	
+Patch
+
+
+/api/pictures
+
+request body may include
+
+	name - containing the picture name
+	comment - user commentary
+	addTags - tags to add, in String array format
+	removeTags - tags to remove, in String array format
+---
+
+/api/collections
+
+request body may include
+
+	name - containing the collection name
+	comment - user commentary
+	addTags - tags to add, in String array format
+	removeTags - tags to remove, in String array format
+	addPictures - pictures to add in mongoID array format generate through UI selection of pictures 
+	removePictures - pictures to add in mongoID array format generate through UI selection of pictures 
+	
+--------------
+
+Delete
+
+
+/api/pictures/:id
+deletes the picture with that ID.
+Note that these are crazy long strings
+
+----
+
+/api/collections/:id
+deletes the collection with that ID.
+Note that these are crazy long strings

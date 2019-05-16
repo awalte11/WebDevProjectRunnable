@@ -54,7 +54,8 @@ function startServer(everythingDatastore: EverythingDatastore) {
   });
 
   app.get('/api/pictures', async (request: Request, response: Response, next) => {
-    const pictures = await everythingDatastore.readAllPictures();
+    var pictures = await everythingDatastore.readAllPictures();
+    pictures.forEach(pict => {pict.picture = null});
     console.log("getting pictures");
     console.log(pictures.length);
     response.json( pictures );
@@ -71,7 +72,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
   app.get('/api/picturesbytag/:name', async (request: Request, response: Response, next) => {
     const name = request.params.name;
     try {
-      const pictures = await everythingDatastore.readTaggedPictures(name);
+      var pictures = await everythingDatastore.readTaggedPictures(name);
       if (pictures == null)//because *somehow* catch isn't working. damnit js.
         {
           response.status(404).json({
@@ -83,7 +84,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
        else
        {
         
-
+        pictures.forEach(pict => {pict.picture = null});
         response.json( pictures );
        }
          
@@ -139,6 +140,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
            });
        }
        else{
+        
         response.json({ tag });
        }
       } catch (error) {
@@ -246,7 +248,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     const name = request.body.name;  
     const user = request.body.user;
     const comment = request.body.comment || "";
-    const address = request.body.address;  
+    const picture = request.body.picture;  
     const tags : string[] = request.body.tags || [];
     if(!name || name == "" )
     {
@@ -256,17 +258,16 @@ function startServer(everythingDatastore: EverythingDatastore) {
             "errorText" : "Name must not be null or empty."
         })
     }
-    else if(!address || address == "" )
+    else if(!picture || picture == "" )
     {
       response.status(400).json({
-            "paramaterName" : "address",
-            "paramaterValue" : address,
-            "errorText" : "address must not be null or empty."
+            "paramaterName" : "picture",
+            "paramaterValue" : picture,
+            "errorText" : "picture must not be null or empty."
         })
     }
     else {
-      
-        var out = await everythingDatastore.createPicture(name, user, comment, address, tags);
+        var out = await everythingDatastore.createPicture(name, user, comment, picture, tags);
         console.log (out._id);
 
         tags.forEach(async element => {

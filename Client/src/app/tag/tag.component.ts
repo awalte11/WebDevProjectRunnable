@@ -22,7 +22,7 @@ export class TagComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     console.log(id)
     if (id) {
-        this.tag = this.dataService.getTag(id);
+        //this.tag = this.dataService.getTag(id);
         
     }
   }

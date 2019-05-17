@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-create-image',
   templateUrl: './create-image.component.html',
   styleUrls: ['./create-image.component.css'],
-  providers:  [ ImageService ]
+  //providers:  [ ImageService ]
 })
 export class CreateImageComponent implements OnInit {
 
@@ -13,7 +13,7 @@ export class CreateImageComponent implements OnInit {
   ngOnInit() {
   }
 
-  public fileEvent($event) {
+  /*public fileEvent($event) {
     const fileSelected: File = $event.target.files[0];
     this.ImageService.uploadFile(fileSelected)
     .subscribe( (response) => {
@@ -23,7 +23,7 @@ export class CreateImageComponent implements OnInit {
       (error) => {
         console.log('set any error actions...');
       });
-    }
+    }*/
 
 }
 

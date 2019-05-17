@@ -15,7 +15,7 @@ export class ImageComponent implements OnInit {
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
 
   ngOnInit() {
-      this.getPicture();
+      //this.getPicture();
       
     
   }

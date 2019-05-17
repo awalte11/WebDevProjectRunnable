@@ -37,7 +37,7 @@ export class ManageCollectionComponent implements OnInit {
     newTagsArr  = this.newTags.split(",");
   
     newTagsArr.forEach( s => {
-      this.dataService.addTagToCollection(this.collection, s)
+      //this.dataService.addTagToCollection(this.collection, s)
      
       } 
     )

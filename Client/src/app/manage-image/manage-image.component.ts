@@ -38,7 +38,7 @@ export class ManageImageComponent implements OnInit {
     newTagsArr  = this.newTags.split(",");
   
     newTagsArr.forEach( s => {
-      this.dataService.addTagToPicture(this.picture, s)
+      //this.dataService.addTagToPicture(this.picture, s)
      
       } 
     )

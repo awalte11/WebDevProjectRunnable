@@ -8,5 +8,5 @@ import { DataService } from './data.service';
 })
 export class AppComponent {
   title = 'COSC484Project';
-  coreService = new DataService();
+  //coreService = new DataService();
 }

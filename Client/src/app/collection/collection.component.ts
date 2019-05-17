@@ -35,3 +35,7 @@ export class CollectionComponent implements OnInit {
   }
 
 }
+/*<div *ngFor = "let picture of collection.pictures">
+  {{picture.name}}
+  <app-image [picture]="picture" [details]=false></app-image>
+</div>*/

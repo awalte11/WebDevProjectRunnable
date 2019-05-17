@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CollectionComponent implements OnInit {
 
 
-  @Input() collection: Collection;
+  @Input() collection: any;
   
 
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }

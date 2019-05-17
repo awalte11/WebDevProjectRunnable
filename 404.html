@@ -1,23 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
+   
+  <meta charset="utf-8">
+  <title>COSC484Project</title>
+  <base href="https://awalte11.github.io/WebDevProjectRunnable">
 
-  <title>SGHPA Demo</title>
-
-  <script>
-    sessionStorage.redirect = location.href;
-  </script>
-  If you read this, you're seeing the 404 page
-  <meta http-equiv="refresh" content="0;URL='/WebDevProjectRunnable'"></meta>
-</head>
-
+  If you read this, this test works
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+<link rel="stylesheet" href="styles.280e991c5992f8630bc9.css"></head>
 <body>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</body>
 
+    <script>
+        (function(){
+          var redirect = sessionStorage.redirect;
+          delete sessionStorage.redirect;
+          if (redirect && redirect != location.href) {
+            history.replaceState(null, null, redirect);
+          }
+          else {
 
+          }
+        })();
+      </script>
+  
+    
+  <app-root></app-root>
+<script type="text/javascript" src="runtime.26209474bfa8dc87a77c.js"></script><script type="text/javascript" src="es2015-polyfills.c5dd28b362270c767b34.js" nomodule></script><script type="text/javascript" src="polyfills.8bbb231b43165d65d357.js"></script><script type="text/javascript" src="main.d113a35921ba2a28d843.js"></script></body>
 </html>

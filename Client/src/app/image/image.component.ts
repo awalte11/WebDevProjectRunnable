@@ -19,7 +19,7 @@ export class ImageComponent implements OnInit {
       
     
   }
-
+/*
   getPicture() : void {
     if (this.details)
     {
@@ -29,6 +29,10 @@ export class ImageComponent implements OnInit {
           this.details = true;
       }
     }
-  }
+  }*/
 
 }
+/*<div *ngIf="details">
+  <p *ngFor = "let tag of picture.tags">
+    {{ tag }}</p>
+</div>*/

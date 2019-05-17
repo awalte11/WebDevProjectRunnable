@@ -22,9 +22,9 @@ export class ManageImageComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getPicture();
+    //this.getPicture();
   }
-
+/*
   getPicture() : void {
     const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     if (id) {
@@ -57,5 +57,28 @@ export class ManageImageComponent implements OnInit {
     
     
 
-  }
+  }*/
 }
+/*
+{{picture.name}}
+
+Tags
+<div *ngFor = "let tag of picture.tags">
+  {{ tag }}
+  
+</div>
+
+<label>New Tags: 
+    <input [(ngModel)]="newTags" placeholder=""/>
+
+</label>
+
+<button (click)="AddTags()">Add Tags</button>
+
+<label>Remove Tags: 
+    <input [(ngModel)]="killTags" placeholder=""/>
+
+</label>
+
+<button (click)="KillTagsParse()">Kill These Tags</button>
+*/

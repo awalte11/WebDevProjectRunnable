@@ -21,9 +21,9 @@ export class ManageCollectionComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getCollection();
+    //this.getCollection();
   }
-
+/*
   getCollection() : void {
     const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     if (id) {
@@ -61,6 +61,6 @@ export class ManageCollectionComponent implements OnInit {
 
 
 
-
+*/
 
 }

@@ -9,7 +9,8 @@ import { ManageImageComponent } from './manage-image/manage-image.component';
 import { ViewAllCollectionsComponent } from './view-all-collections/view-all-collections.component';
 
 const routes: Routes = [
-  { path: '', redirectTo : 'allcollections', pathMatch: 'full' },
+  { path: '', redirectTo : '/allcollections', pathMatch: 'full' },
+  { path: 'COSC484Project', redirectTo : '/allcollections', pathMatch: 'full'},
   { path: 'frontpage',  component: FrontPageComponent },
   { path: 'allcollections',  component: ViewAllCollectionsComponent }, 
   { path: 'image/:id', component: ImageComponent },

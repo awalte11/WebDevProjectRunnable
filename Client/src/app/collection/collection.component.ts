@@ -27,7 +27,7 @@ export class CollectionComponent implements OnInit {
   }
 
   getCollection() : void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    const id = this.route.snapshot.paramMap.get('id');
     if (id) {
         this.collection = this.dataService.getCollection(id);
         

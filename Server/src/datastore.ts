@@ -115,13 +115,13 @@ export class EverythingDatastore {
   
 
   
-  async createPicture(name: string, user: string, comment: string, address : string, tags : string[] ) {
+  async createPicture(name: string, user: string, comment: string, picture : Buffer, tags : string[] ) {
 
     var newPicture = {
       name : name,
       user : user || "unimplemented",
       comment : comment,
-      address : address,
+      picture: picture,
       tags : tags
     }
     var test = await this.pictures.insertOne( newPicture );

@@ -23,6 +23,5 @@ describe('CreateImageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  
 
 });

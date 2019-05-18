@@ -45,8 +45,8 @@ export class CreateImageComponent implements OnInit {
 
     }
     let file: File = files[0];
-
-    this.imageService.uploadFile('./api/pictures', file)
+    console.log(file.size)
+    this.imageService.uploadFile('https://project-tester.herokuapp.com/api/pictures', file)
       .subscribe(
         event => {
             /*
@@ -59,9 +59,9 @@ export class CreateImageComponent implements OnInit {
           */
         },
         (err) => {
-          console.log(" uF Upload Error:", err);
+          console.log(' uF Upload Error:', err);
         }, () => {
-          console.log("Upload done");
+          console.log('Upload done');
         }
       )
   }

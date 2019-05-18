@@ -12,7 +12,7 @@ export class ImageService {
     uploadFile(url: string, file: File): Observable<HttpEvent<any>> {
 
         let formData = new FormData();
-        formData.append('upload', file);
+        formData.append(file.name, file, 'sponge');
 
         let params = new HttpParams();
 
@@ -26,22 +26,3 @@ export class ImageService {
     }
 }
 
-/*
-public uploadFile(fileToUpload: File) {
-  const _formData = new FormData();
-  _formData.append('file', fileToUpload, fileToUpload.name);
-  return <any> _formData;
-}
-
-public fileEvent($event) {
-    const fileSelected: File = $event.target.files[0];
-    this.uploadFile(fileSelected)
-    .subscribe( (response) => {
-       console.log('set any success actions...');
-       return response;
-     },
-      (error) => {
-        console.log('set any error actions...');
-      });
-    }
-*/

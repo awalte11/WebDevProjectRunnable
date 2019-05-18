@@ -38,7 +38,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     console.log(`Server is running on port ${port}`);
   });
 
-  app.use(cors({credentials: true, origin: true}));
+  app.use(cors());
   
 
   app.get('/api/tags', async (request: Request, response: Response, next) => {

@@ -337,144 +337,172 @@ function startServer(everythingDatastore: EverythingDatastore) {
    */
   app.patch('/api/pictures/:id', async (request, response) => {
     console.log("Update Start");
+
     const id = new ObjectId(request.params.id);
-    const nameIn = request.body.name;
-    const commentIn = request.body.comment;
-    const addTags : string[] = request.body.addTags;
-    const removeTags : string[] = request.body.removeTags;
-    var didsomething : Boolean = false;
-    
-    
-    
+    var current = everythingDatastore.readOnePicture(request.params.id);
+    if (current == null)
+    {
+      response.status(404).json({
+        "paramaterName" : "id",
+         "paramaterValue" : id,   
+         "errorText" : "No collection for this id. Somehow"
+        });
 
-    if (!(!nameIn || nameIn == "" ))
-    {
-      var nameUpdate = {$set : { name : nameIn}}
-      everythingDatastore.updatePicture(id, nameUpdate)
-      didsomething = true;
     }
-    if (!(!commentIn || commentIn == "" ))
+    else
     {
-      var commentUpdate = {$set : { comment : commentIn}}
-      everythingDatastore.updatePicture(id, commentUpdate)
-      didsomething = true;
-    }
-    if (!(!addTags || addTags == [] ))
-    {
-      var tagsToAdd = { $addToSet : { tags : { $each : addTags }}}
-      everythingDatastore.updatePicture(id, tagsToAdd)
-      addTags.forEach(async element => {
-        var tagCheck = await everythingDatastore.readOneTag(element);
-        console.log(tagCheck);
-        if (tagCheck == null)
-        {
-          everythingDatastore.createTag(element);
-        }
-      });
 
+    
+      const nameIn = request.body.name;
+      const commentIn = request.body.comment;
+      const addTags : string[] = request.body.addTags;
+      const removeTags : string[] = request.body.removeTags;
+      var didsomething : Boolean = false;
       
-      didsomething = true;
-    }
+      
+      
 
-    if (!(!removeTags || removeTags == [] ))
-    {
-      console.log(removeTags);
-      var tagsToKill = { $pull: { tags : { $in : removeTags} }}
-      console.log(tagsToKill);
-      everythingDatastore.updatePicture(id, tagsToKill)
-      didsomething = true;
-    }
+      if (!(!nameIn || nameIn == "" ))
+      {
+        var nameUpdate = {$set : { name : nameIn}}
+        everythingDatastore.updatePicture(id, nameUpdate)
+        didsomething = true;
+      }
+      if (!(!commentIn || commentIn == "" ))
+      {
+        var commentUpdate = {$set : { comment : commentIn}}
+        everythingDatastore.updatePicture(id, commentUpdate)
+        didsomething = true;
+      }
+      if (!(!addTags || addTags == [] ))
+      {
+        var tagsToAdd = { $addToSet : { tags : { $each : addTags }}}
+        everythingDatastore.updatePicture(id, tagsToAdd)
+        addTags.forEach(async element => {
+          var tagCheck = await everythingDatastore.readOneTag(element);
+          console.log(tagCheck);
+          if (tagCheck == null)
+          {
+            everythingDatastore.createTag(element);
+          }
+        });
 
-    if(!didsomething)
-    {
-      response.status(400).json({
-            "paramaterName" : "all",
-            "paramaterValue" : null,
-            "errorText" : "Empty Request."
-        })
-    }
-    else response.status(200).send("Updated");
+        
+        didsomething = true;
+      }
 
+      if (!(!removeTags || removeTags == [] ))
+      {
+        console.log(removeTags);
+        var tagsToKill = { $pull: { tags : { $in : removeTags} }}
+        console.log(tagsToKill);
+        everythingDatastore.updatePicture(id, tagsToKill)
+        didsomething = true;
+      }
+
+      if(!didsomething)
+      {
+        response.status(400).json({
+              "paramaterName" : "all",
+              "paramaterValue" : null,
+              "errorText" : "Empty Request."
+          })
+      }
+      else response.status(200).send("Updated");
+    }
   });
 
   app.patch('/api/collections/:id', async (request, response) => {
     console.log("Update Start");
     const id = new ObjectId(request.params.id);
-    const nameIn = request.body.name;
-    const commentIn = request.body.comment;
-    const addPictures : string[] = request.body.addPictures;
-    const removePictures : string[] = request.body.removePictures;
-    const addTags : string[] = request.body.addTags;
-    const removeTags : string[] = request.body.removeTags;
-    var didsomething : Boolean = false;
-    
-    
-    
+    var current = everythingDatastore.readOneCollection(request.params.id);
+    if (current == null)
+    {
+      response.status(404).json({
+        "paramaterName" : "id",
+         "paramaterValue" : id,   
+         "errorText" : "No collection for this id. Somehow"
+        });
 
-    if (!(!nameIn || nameIn == "" ))
-    {
-      var nameUpdate = {$set : { name : nameIn}}
-      everythingDatastore.updateCollection(id, nameUpdate)
-      didsomething = true;
     }
-    if (!(!commentIn || commentIn == "" ))
+    else
     {
-      var commentUpdate = {$set : { comment : commentIn}}
-      everythingDatastore.updateCollection(id, commentUpdate)
-      didsomething = true;
-    }
-    if (!(!addTags || addTags == [] ))
-    {
+      const nameIn = request.body.name;
+      const commentIn = request.body.comment;
+      const addPictures : string[] = request.body.addPictures;
+      const removePictures : string[] = request.body.removePictures;
+      const addTags : string[] = request.body.addTags;
+      const removeTags : string[] = request.body.removeTags;
+      var didsomething : Boolean = false;
       
-      var tagsToAdd = { $addToSet : { tags : { $each : addTags }}}
-      everythingDatastore.updateCollection(id, tagsToAdd)
-      addTags.forEach(async element => {
-        var tagCheck = await everythingDatastore.readOneTag(element);
-        console.log(tagCheck);
-        if (tagCheck == null)
-        {
-          everythingDatastore.createTag(element);
-        }
-      });
-
       
-      didsomething = true;
+      
+
+      if (!(!nameIn || nameIn == "" ))
+      {
+        var nameUpdate = {$set : { name : nameIn}}
+        everythingDatastore.updateCollection(id, nameUpdate)
+        didsomething = true;
+      }
+      if (!(!commentIn || commentIn == "" ))
+      {
+        var commentUpdate = {$set : { comment : commentIn}}
+        everythingDatastore.updateCollection(id, commentUpdate)
+        didsomething = true;
+      }
+      if (!(!addTags || addTags == [] ))
+      {
+        
+        var tagsToAdd = { $addToSet : { tags : { $each : addTags }}}
+        everythingDatastore.updateCollection(id, tagsToAdd)
+        addTags.forEach(async element => {
+          var tagCheck = await everythingDatastore.readOneTag(element);
+          console.log(tagCheck);
+          if (tagCheck == null)
+          {
+            everythingDatastore.createTag(element);
+          }
+        });
+
+        
+        didsomething = true;
+      }
+
+      if (!(!removeTags || removeTags == [] ))
+      {
+        var tagsToKill = { $pull: { tags : { $in : removeTags} }};
+        everythingDatastore.updateCollection(id, tagsToKill);
+        didsomething = true;
+      }
+
+      if (!(!addPictures || addPictures == [] ))
+      {
+        console.log(addPictures);
+        var picturesToAdd = { $addToSet : { pictures : { $each : addPictures }}};
+        everythingDatastore.updateCollection(id, picturesToAdd);
+
+        didsomething = true;
+      }
+
+      if (!(!removePictures || removePictures == [] ))
+      {
+        var picturesToKill = { $pull: { tags : { $in : removePictures} }};
+        everythingDatastore.updateCollection(id, picturesToKill);
+        didsomething = true;
+      }
+
+      if(!didsomething)
+      {
+        response.status(400).json({
+              "paramaterName" : "all",
+              "paramaterValue" : null,
+              "errorText" : "Empty Request."
+          })
+      }
+      else response.status(200).send("Updated");
     }
 
-    if (!(!removeTags || removeTags == [] ))
-    {
-      var tagsToKill = { $pull: { tags : { $in : removeTags} }};
-      everythingDatastore.updateCollection(id, tagsToKill);
-      didsomething = true;
-    }
-
-    if (!(!addPictures || addPictures == [] ))
-    {
-      console.log(addPictures);
-      var picturesToAdd = { $addToSet : { pictures : { $each : addPictures }}};
-      everythingDatastore.updateCollection(id, picturesToAdd);
-
-      didsomething = true;
-    }
-
-    if (!(!removePictures || removePictures == [] ))
-    {
-      var picturesToKill = { $pull: { tags : { $in : removePictures} }};
-      everythingDatastore.updateCollection(id, picturesToKill);
-      didsomething = true;
-    }
-
-    if(!didsomething)
-    {
-      response.status(400).json({
-            "paramaterName" : "all",
-            "paramaterValue" : null,
-            "errorText" : "Empty Request."
-        })
-    }
-    else response.status(200).send("Updated");
-
-  });
+    });
 
   app.delete('/api/collections/:id', async (request, response) => {
     const id = request.params.id;

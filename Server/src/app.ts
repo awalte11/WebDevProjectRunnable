@@ -39,9 +39,10 @@ function startServer(everythingDatastore: EverythingDatastore) {
   });
 
   app.use(cors());
+  app.options("/*", cors());
   
 
-  app.get('/api/tags', async (request: Request, response: Response, next) => {
+  app.get('/api/tags',  async (request: Request, response: Response, next) => {
     const tags = await everythingDatastore.readAllTags();
     
     response.json( tags );
@@ -55,7 +56,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     response.json( pictures );
   });
 
-  app.get('/api/collections', async (request: Request, response: Response, next) => {
+  app.get('/api/collections',  async (request: Request, response: Response, next) => {
     const collections = await everythingDatastore.readAllCollections();
     
     response.json( collections );

@@ -39,13 +39,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
   });
 
   app.use(cors({credentials: true, origin: true}));
-  app.use(function(request, response, next) {
-    response.header("Access-Control-Allow-Origin", '*');
-    response.header("Access-Control-Allow-Credentials", 'true');
-    response.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
-    response.header("Access-Control-Allow-Headers", 'Origin, X-Requested-With, Content-Type, Accept, content-type, application/json');
-    next();
-});
+  
 
   app.get('/api/tags', async (request: Request, response: Response, next) => {
     const tags = await everythingDatastore.readAllTags();
@@ -243,6 +237,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     }
   });
 
+  app.options('/api/pictures', cors());
   app.post('/api/pictures', async (request, response) => {
     console.log("post");
     const name = request.body.name;  

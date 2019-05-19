@@ -273,17 +273,14 @@ export class DataService {
   createPicture(file, name : string,  comment : string, tags : string[]) {
 
     
-    var out = this.http.post(targetApi + 'pictures/', {
+    return this.http.post(targetApi + 'pictures/', {
       name : name,
       picture : file,
       comments : comment,
       tags : tags
 
-    }).pipe(map(this.extractData));
-    console.log("service");
-    console.log(out);
-    return out;
-    
+    });
+
     
     
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
+import { picture } from '../picture';
+import { Router } from '@angular/router';
 
 
 
@@ -12,13 +14,14 @@ import { DataService } from '../data.service';
 export class CreateImageComponent implements OnInit {
 
   constructor(
-    private dataService: DataService
+    private dataService: DataService, private router: Router
 
   ) { }
 
   currentFile : File;
   currentBlob : string;
-
+  newPicture : picture;
+  newID : string;
   ngOnInit() {
   }
 
@@ -42,28 +45,34 @@ export class CreateImageComponent implements OnInit {
   async selectFile(event) {
     this.currentFile = event.target.files[0];
     this.currentBlob = await readUploadedFileAsBS(this.currentFile);
-    console.log(this.currentBlob)
+
     
   }
 
   
 
-  uploadFile() {
+  async uploadFile() {
     const name  = ( document.getElementById('name') as HTMLInputElement).value;
     const comment  = ( document.getElementById('comments') as HTMLInputElement).value;
     const tags  = ( document.getElementById('tags') as HTMLInputElement).value.split(',');
+    
     var pict = this.dataService.createPicture(this.currentBlob, name, comment, tags)
-      .subscribe(
+      pict.subscribe(
         event => {
-          console.log(event.toString())
-            /*
-          if (event.type == HttpEvent.type.UploadProgress) {
-            const percentDone = Math.round(100 * event.loaded / event.total);
-            console.log(`File is ${percentDone}% loaded.`);
-          } else if (event instanceof HttpResponse) {
-            console.log('File is completely loaded!');
+          for(var key in event)
+          {
+            if (key == "id")
+            {
+              this.newID = event[key];
+            }
+
           }
-          */
+          console.log(this.newID)
+          if (this.newID != null)
+          {
+            this.router.navigate(['image/' + this.newID])
+          }
+          
         },
         (err) => {
           console.log(' uF Upload Error:', err);
@@ -72,6 +81,7 @@ export class CreateImageComponent implements OnInit {
           
         }
       )
+     
       
   }
 
@@ -92,6 +102,7 @@ const readUploadedFileAsBS = (inputFile : File) => {
     temporaryFileReader.readAsBinaryString(inputFile);
   });
 };
+
 
 
 

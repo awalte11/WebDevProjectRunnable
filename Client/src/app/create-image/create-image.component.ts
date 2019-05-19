@@ -15,6 +15,9 @@ export class CreateImageComponent implements OnInit {
 
   ) { }
 
+  currentFile : File;
+  currentBlob : string;
+
   ngOnInit() {
   }
 
@@ -22,7 +25,7 @@ export class CreateImageComponent implements OnInit {
   // (drop)="onDropFile($event)"
   onDropFile(event: DragEvent) {
     event.preventDefault();
-    this.uploadFile(event.dataTransfer.files);
+    //this.uploadFile(event.dataTransfer.files);
   }
 
   // At the drag drop area
@@ -34,19 +37,18 @@ export class CreateImageComponent implements OnInit {
 
   // At the file input element
   // (change)="selectFile($event)"
-  selectFile(event) {
-    this.uploadFile(event.target.files);
+  async selectFile(event) {
+    this.currentFile = event.target.files[0];
+    this.currentBlob = await readUploadedFileAsBS(this.currentFile);
+    console.log(this.currentBlob)
+    
   }
 
-  uploadFile(files: FileList) {
-    if (files.length == 0) {
-      console.log('No file selected!');
-      return
+  
 
-    }
-    let file: File = files[0];
-    console.log(file.size)
-    this.imageService.uploadFile('https://project-tester.herokuapp.com/api/pictures', file)
+  uploadFile() {
+   
+    this.imageService.uploadFile('https://project-tester.herokuapp.com/api/pictures', this.currentBlob)
       .subscribe(
         event => {
             /*
@@ -67,6 +69,24 @@ export class CreateImageComponent implements OnInit {
   }
 
 }
+
+const readUploadedFileAsBS = (inputFile : File) => {
+  const temporaryFileReader = new FileReader();
+
+  return new Promise<string>((resolve, reject) => {
+    temporaryFileReader.onerror = () => {
+      temporaryFileReader.abort();
+      reject(new DOMException("Problem parsing input file."));
+    };
+
+    temporaryFileReader.onload = () => {
+      resolve(temporaryFileReader.result.toString());
+    };
+    temporaryFileReader.readAsBinaryString(inputFile);
+  });
+};
+
+
 
 
 

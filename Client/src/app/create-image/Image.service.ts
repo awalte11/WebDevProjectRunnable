@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClientModule, HttpClient,  HttpParams, HttpRequest, HttpEvent} from '@angular/common/http';
+import {HttpClientModule, HttpClient,  HttpParams, HttpRequest, HttpEvent, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,20 +12,31 @@ export class ImageService {
 
   constructor(private http: HttpClient) { }
 
-    uploadFile(url: string, file: File): Observable<HttpEvent<any>> {
+    uploadFile(url: string, file ) {
 
-        let formData = new FormData();
-        formData.append(file.name, file, 'sponge');
 
-        let params = new HttpParams();
-
-        const options = {
-        params: params,
-        reportProgress: true,
-        };
-
-        const req = new HttpRequest('POST', url, formData, options);
-        return this.http.request(req); 
+        return this.http.post(url, {
+          name : "Test With Blob",
+          picture : file
+        })
+        
+        
     }
+
+    blobifyFile(file : File) : string {
+      var out;
+      this.readFile(file, function(e) {
+        out = e.target.result;
+      })
+      return out;
+    }
+
+    readFile(file : File, callback) {
+      let reader = new FileReader();
+      reader.onloadend = callback;
+      reader.readAsBinaryString (file);
+      
+    }
+    
 }
 

@@ -2,30 +2,29 @@
 <html lang="en">
 <p>
 
-  Upload images
+<strong>Upload A Picture</strong>
 
-  
 
-</p>
+
+</p><br>
 <label>Name:
-    <input type="text" id="name">
-</label>
+        <input [(ngModel)]="pictName" placeholder="Name Required"/>
+</label><br>
 <label>Comments:
     <input type="text" id="comments">
-</label>
+</label><br>
 
-<label>Tags (please seperate with commans):
+<label>Tags (please seperate with commas):
     <input type="text" id="tags">
-</label>
+</label><br>
 
 <form action="/uploadpicture" method="POST" enctype="multipart/form-data">
 <input type="file" id = "input "name="picture" accept="image/*" (change)= "selectFile($event)">
-</form>
+</form><br><br>
 
 
 
 <button (click)="uploadFile()">Send Image</button>
+
+
 </html>
-
-
-

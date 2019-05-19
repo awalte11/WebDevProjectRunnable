@@ -1,37 +1,53 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'; 
+import { Observable } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
+
 import { Collection } from './collection';
 import { tag } from './tag';
 import { picture } from './picture';
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json'
+  })
+};
+
+const target = 'https://project-tester.herokuapp.com/';
+const targetApi = target + 'api/';
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
-  public collections : Collection[];
-  public tags : tag[];
-  public pictures : picture[];
 
+
+export class DataService {
+  //public collections : Collection[];
+  //public tags : tag[];
+  //public pictures : picture[];
+
+  
   collectionKey = 'collections';
   tagKey = 'tags';
   pictureKey = 'pictures';
   testReset = false;
 
-  constructor() { 
+  constructor(private http : HttpClient) { 
     if (this.testReset)
     {
-      this.collections = new Array<Collection>();
-      this.pictures = new Array<picture>();
-      this.tags = new Array<tag>();
-      this.CreateCollection("Cats Sleeping", ["Cats", "Sleeping Animals", "So Much Fluff", "Cuteness"])
-      this.CreateCollection("Cats Stalking", ["Cats", "Hunting Animals", "So Much Fluff", "Cuteness"])
-      this.CreateCollection("Cats Booping", ["Cats", "Boops", "So Much Fluff", "Cuteness"])
-      this.CreatePicture("Cat vs Bird", ["Cats", "Birds", "Hunting Animals", "So Much Fluff", "Fur Vs Feathers"])
-      this.AddPictureToCollection(this.getCollection(2), this.getPicture(1))
+      //this.collections = new Array<Collection>();
+      //this.pictures = new Array<picture>();
+      //this.tags = new Array<tag>();
+      //this.CreateCollection("Cats Sleeping", ["Cats", "Sleeping Animals", "So Much Fluff", "Cuteness"])
+      //this.CreateCollection("Cats Stalking", ["Cats", "Hunting Animals", "So Much Fluff", "Cuteness"])
+      //this.CreateCollection("Cats Booping", ["Cats", "Boops", "So Much Fluff", "Cuteness"])
+      //this.CreatePicture("Cat vs Bird", ["Cats", "Birds", "Hunting Animals", "So Much Fluff", "Fur Vs Feathers"])
+      //this.AddPictureToCollection(this.getCollection(2), this.getPicture(1))
     }
     else {
-    this.collections = JSON.parse(localStorage.getItem(this.collectionKey)) || new Array<Collection>();
-    this.tags = JSON.parse(localStorage.getItem(this.tagKey)) || new Array<tag>();
-    this.pictures = JSON.parse(localStorage.getItem(this.pictureKey)) || new Array<picture>();
+    //this.collections = JSON.parse(localStorage.getItem(this.collectionKey)) || new Array<Collection>();
+    //this.tags = JSON.parse(localStorage.getItem(this.tagKey)) || new Array<tag>();
+    //this.pictures = JSON.parse(localStorage.getItem(this.pictureKey)) || new Array<picture>();
     }
     
     
@@ -42,75 +58,220 @@ export class DataService {
 
   }
 
-  AddPictureToCollection(collection : Collection, picture : picture)
+  private extractData(res: Response) {
+    let body = res;
+    return body || { };
+  }
+
+  //Get all X methods start here
+
+  GetAllCollections() : Observable<any>
   {
-    collection.pictures.push(picture);
-    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
+    return this.http.get(targetApi + 'collections').pipe(map(this.extractData));
   }
 
-  removePictureFromCollection(collection : Collection, picture : picture)
+  //this one does not currently return the actual images
+  GetAllPictures() : Observable<any>
   {
-    const idToNuke = collection.pictures.findIndex(pict => pict.id == picture.id);
-    collection.pictures[idToNuke] = null;
-    collection.pictures = collection.pictures.filter(function(item) {return item != null});
-    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
+    return this.http.get(targetApi + 'pictures').pipe(map(this.extractData));
   }
 
-
-  //This code is all shamelessly borrowed from my assignment 5. so that when I merge that I know how to merge this too
-  //Collection
-  CreateCollection(name : string, tags : string[])
+  GetAllTags() : Observable<any>
   {
-    let nextId: number;
-    nextId = 1;
-    this.collections.forEach(collection => {
-        if (collection && collection.id >= nextId) {
-            nextId = collection.id + 1;
-        }
-    });
-    let newCollection : Collection;
-    newCollection = new Collection(name);
-    newCollection.id = nextId;
-    newCollection.tags = new Array<string>();
-    tags.forEach(tagId => {
-      this.addTagToCollection(newCollection, tagId)
-    });
-    this.collections.push(newCollection);
-    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
-    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
+    return this.http.get(targetApi + 'tags').pipe(map(this.extractData));
   }
 
-  getCollection(id: number): Collection{
-    let outCollection: Collection;
-      outCollection = this.collections.find(collection => collection.id === id);
+  //Get one X methods start here
 
-    return outCollection;
+  getCollection(id: string): Observable<any>{
+
+    return this.http.get(targetApi + 'collections/' + id).pipe(map(this.extractData));
+
   }
 
-  DeleteCollection(id: number): void {
-    const idToNuke = this.collections.findIndex(collection => collection.id === id);
-    this.collections[idToNuke].tags.forEach(tagToKill => {
-      this.removeTagFromCollection(this.collections[idToNuke], tagToKill)
-
-    })
-    this.collections[idToNuke] = null;
-    this.collections = this.collections.filter(function(item) {return item != null});
-    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
+  getPicture(id: string): Observable<any>{
+    return this.http.get(targetApi + 'pictures/' + id).pipe(map(this.extractData));
   }
 
-  removeTagFromCollection(collection : Collection, tag : string)
-  {
-    const toKill = collection.tags.findIndex(tagInColl => tagInColl == tag);
-    collection.tags[toKill] = null;
-    collection.tags = collection.tags.filter(function(item) {return item != null});
-    const tagToEdit = this.getTag(tag)
-    const toKill2 = tagToEdit.collections.findIndex(col => col.id == collection.id)
-    tagToEdit.collections[toKill2] = null;
-    tagToEdit.collections = tagToEdit.collections.filter(function(item) {return item != null});
-    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
-    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
+  //get one tag does not exist. Client side has zero need for knowledge of tags as mongo-db objects rather than as strings.
+
+  //Get all X matching programmed criteria starts here.
+  getTaggedPictures(tag : string ): Observable<any>{
+    return this.http.get(targetApi + 'picturesbytag/' + tag).pipe(map(this.extractData));
+  }
+
+  getTaggedCollections (tag : string ): Observable<any>{
+    return this.http.get(targetApi + 'collectionsbytag/' + tag).pipe(map(this.extractData));
+  }
+
+  //Update methods start here
+
+  
+    /**
+   * Master modify picture option, editing all things editable
+   * @param id 
+   * @param name 
+   * @param comment 
+   * @param addTags 
+   * @param removeTags 
+   */
+  ModifyPicture(id : string, name : string, comment : string, addTags : string [], removeTags : string[]) : Observable<any>{
     
+    var body = {
+      name : name,
+      comment : comment,
+      addTags : addTags,
+      removeTags : removeTags
+    }
+    
+    return this.http.put(targetApi + 'pictures/' + id, body);
   }
+
+  //For when you just want to make one change
+  renamePicture(picture : string, name : string)
+  {
+    return this.ModifyPicture(picture, name, null, null, null)
+  }
+
+  reCommentPicture(picture : string, comment : string)
+  {
+    return this.ModifyPicture(picture, null, comment, null, null)
+  }
+
+  /**
+   * Add tags
+   * @param picture Picture ID 
+   * @param tags tags as string array. To pass a single tag easily, wrap it in []
+   */
+  addTagsToPicture(picture : string, tags : string[])
+  {
+    return this.ModifyPicture(picture, name, null, tags, null)
+  }
+
+  /**
+   * Remove tags
+   * @param picture Picture ID 
+   * @param tags tags as string array. To pass a single tag easily, wrap it in []
+   */
+  removeTagsFromPicture(picture : string, tags : string[])
+  {
+    return this.ModifyPicture(picture, null, null, null, tags)
+  }
+
+
+  /**
+   * Master modify collection option, editing all things editable
+   * @param id 
+   * @param name 
+   * @param comment 
+   * @param addPictures 
+   * @param removePictures 
+   * @param addTags 
+   * @param removeTags 
+   */
+  ModifyCollection(id : string, name : string, comment : string, addPictures : string[], removePictures : string[], addTags : string [], removeTags : string[]) : Observable<any>{
+    
+    var body = {
+      name : name,
+      comment : comment,
+      addPictures : addPictures,
+      removePictures : removePictures,
+      addTags : addTags,
+      removeTags : removeTags
+    }
+    
+    return this.http.put(targetApi + 'collections/' + id, body);
+  }
+
+  //For when you just want to make one change
+  renameCollection(collection : string, name : string)
+  {
+    return this.ModifyCollection(collection, name, null, null, null, null, null)
+  }
+
+  reCommentCollection(collection : string, comment : string)
+  {
+    return this.ModifyCollection(collection, null, comment, null, null, null, null)
+  }
+  
+  /**
+   * Add pictures to collection
+   * @param collection Collection ID
+   * @param picture Picture IDs as string array. To pass one easily, just wrap it in []
+   */
+  addPicturesToCollection(collection : string, picture : string[])
+  {
+    return this.ModifyCollection(collection, null, null, picture, null, null, null)
+  }
+
+  /**
+   * Remove pictures from collection
+   * @param collection Collection ID
+   * @param picture Picture IDs as string array. To pass one easily, just wrap it in []
+   */
+  removePicturesFromCollection(collection : string, picture : string[])
+  {
+    return this.ModifyCollection(collection, null, null, null, picture, null, null)
+  }
+
+  /**
+   * Add tags
+   * @param picture Collection ID 
+   * @param tags tags as string array. To pass a single tag easily, wrap it in []
+   */
+  addTagsToCollection(collection : string, tags : string[])
+  {
+    return this.ModifyCollection(collection, null, null, null, null, tags, null)
+  }
+  /**
+   * Remove tags
+   * @param picture Collection ID 
+   * @param tags tags as string array. To pass a single tag easily, wrap it in []
+   */
+  removeTagsFromCollection(collection : string, tags : string[])
+  {
+    return this.ModifyCollection(collection, null, null, null, null, null, tags)
+  }
+
+  //Deletes start here
+
+  /**
+   * Delete a collection. Don't worry about the details, the server handles that
+   * @param id the ID
+   */
+  DeleteCollection(id: string): void {
+    this.http.delete(targetApi + 'collections/' + id);
+  }
+
+    /**
+   * Delete a picture. Don't worry about the details, the server handles that
+   * @param id the ID
+   */
+  DeletePicture(id: string): void {
+    this.http.delete(targetApi + 'pictures/' + id);
+  }
+
+  //DeleteTag is deliberately not a thing here.
+
+  
+
+  //Create starts here
+  CreateCollection(name : string,  comment : string, tags : string[], pictures: string[])
+  {
+    this.http.post(targetApi + 'collections/', {
+      name : name,
+      comment : comment,
+      tags : tags,
+      pictures : pictures
+    })
+
+  }
+
+  //Create Picture is not my job, so to speak
+
+
+
+
 
   
 
@@ -118,7 +279,7 @@ export class DataService {
 
   CreatePicture(name : string, tags : string[])
   {
-    let nextId: number;
+    /*let nextId: number;
     nextId = 1;
     this.pictures.forEach(picture => {
         if (picture && picture.id >= nextId) {
@@ -133,102 +294,9 @@ export class DataService {
     });
     this.pictures.push(newPicture);
     localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
-    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
-  }
-
-  getPicture(id: number): picture{
-    let outPicture: picture;
-      outPicture = this.pictures.find(pictures => pictures.id === id);
-
-    return outPicture;
-  }
-
-  DeletePicture(id: number): void {
-    const idToNuke = this.pictures.findIndex(picture => picture.id === id);
-    this.pictures[idToNuke].tags.forEach(tagToKill => {
-      this.removeTagFromPicture(this.pictures[idToNuke], tagToKill)
-
-    })
-    this.pictures[idToNuke] = null;
-    this.pictures = this.pictures.filter(function(item) {return item != null});
-    localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
-  }
-
-  removeTagFromPicture(picture : picture, tag : string)
-  {
-    const toKill = picture.tags.findIndex(tagInPict => tagInPict == tag);
-    picture.tags[toKill] = null;
-    picture.tags = picture.tags.filter(function(item) {return item != null});
-    const tagToEdit = this.getTag(tag)
-    const toKill2 = tagToEdit.pictures.findIndex(pict => pict.id == picture.id)
-    tagToEdit.pictures[toKill2] = null;
-    tagToEdit.pictures = tagToEdit.pictures.filter(function(item) {return item != null});
-    localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
-    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
+    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));*/
   }
 
 
-
-  CreateTag(name : string) : tag{
-    let newTag : tag;
-    newTag = new tag(); //this SHOULD be initializing the below arrays but isn't.
-    newTag.name = name;
-    newTag.collections = new Array<Collection>();//these go here because JS constructors are shit
-    newTag.pictures = new Array<picture>();
-    this.tags.push(newTag);
-    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
-    return newTag;
-  }
-
-  
-
-  tagExists(id : string): Boolean
-  {
-    return !(this.tags.find(tag => tag.name === id) === undefined);
-
-  }
-
-  getTag(name: string): tag{
-    let outTag: tag;
-      outTag = this.tags.find(tag => tag.name == name);
-
-    return outTag;
-  }
-
-  addTagToCollection(collection : Collection, tagId : string)
-  {
-    var tag : tag;
-    if (this.tagExists(tagId))
-    {
-      tag = this.getTag(tagId);
-    }
-    else{
-      tag = this.CreateTag(tagId);
-    }
-    collection.tags.push(tag.name);
-    tag.collections.push(collection);
-    localStorage.setItem(this.collectionKey, JSON.stringify(this.collections));
-    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
-
-  }
-
-
-
-  addTagToPicture(picture : picture, tagId : string)
-  {
-    var tag : tag;
-    if (this.tagExists(tagId))
-    {
-      tag = this.getTag(tagId);
-    }
-    else{
-      tag = this.CreateTag(tagId);
-    }
-    picture.tags.push(tag.name);
-    tag.pictures.push(picture);
-    localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
-    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));
-
-  }
 
 }

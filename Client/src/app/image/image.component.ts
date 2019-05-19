@@ -15,11 +15,11 @@ export class ImageComponent implements OnInit {
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
 
   ngOnInit() {
-      this.getPicture();
+      //this.getPicture();
       
     
   }
-
+/*
   getPicture() : void {
     if (this.details)
     {
@@ -29,6 +29,10 @@ export class ImageComponent implements OnInit {
           this.details = true;
       }
     }
-  }
+  }*/
 
 }
+/*<div *ngIf="details">
+  <p *ngFor = "let tag of picture.tags">
+    {{ tag }}</p>
+</div>*/

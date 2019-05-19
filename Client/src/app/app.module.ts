@@ -18,6 +18,8 @@ import {ImageService} from './create-image/Image.service';
 import { FrontPageComponent } from './front-page/front-page.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
+import { ViewAllCollectionsComponent } from './view-all-collections/view-all-collections.component';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { HttpClientModule} from '@angular/common/http';
     RegisterUserComponent,
     ManageUserComponent,
     TagComponent,
-    FrontPageComponent
+    FrontPageComponent,    
+    ViewAllCollectionsComponent
+
   ],
   imports: [
     BrowserModule,

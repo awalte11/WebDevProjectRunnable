@@ -6,6 +6,7 @@ import { ImageService } from './Image.service';
 @Component({
   selector: 'app-create-image',
   templateUrl: './create-image.component.html',
+
   styleUrls: ['./create-image.component.css']
 })
 export class CreateImageComponent implements OnInit {
@@ -20,6 +21,7 @@ export class CreateImageComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
    // At the drag drop area
   // (drop)="onDropFile($event)"

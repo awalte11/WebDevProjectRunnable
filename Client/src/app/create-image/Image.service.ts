@@ -10,6 +10,7 @@ import {Observable} from 'rxjs';
 })
 export class ImageService {
 
+
   constructor(private http: HttpClient) { }
 
     uploadFile(url: string, file ) {
@@ -37,6 +38,6 @@ export class ImageService {
       reader.readAsBinaryString (file);
       
     }
-    
+   
 }
 

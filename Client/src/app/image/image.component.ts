@@ -13,7 +13,7 @@ export class ImageComponent implements OnInit {
   @Input() picture = null;
   @Input() details = true;
    managing : boolean = false;
-  routeToManage : string;
+  
   @Input() id;
   img : string;
   newTags: string;
@@ -35,8 +35,7 @@ export class ImageComponent implements OnInit {
     {
       
       this.id = this.route.snapshot.paramMap.get('id');
-      this.routeToManage = "/manageimage/" + this.id;
-      console.log(this.routeToManage)
+
       this.dataService.getPicture(this.id).subscribe(picture =>
            {this.picture = picture.tag}, error => console.log("Error :: " + error),
             ()=> {

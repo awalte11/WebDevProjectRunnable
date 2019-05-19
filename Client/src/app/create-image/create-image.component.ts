@@ -20,6 +20,7 @@ export class CreateImageComponent implements OnInit {
 
   currentFile : File;
   currentBlob : string;
+  pictName : string;
   newPicture : picture;
   newID : string;
   ngOnInit() {
@@ -52,11 +53,12 @@ export class CreateImageComponent implements OnInit {
   
 
   async uploadFile() {
-    const name  = ( document.getElementById('name') as HTMLInputElement).value;
+    
     const comment  = ( document.getElementById('comments') as HTMLInputElement).value;
     const tags  = ( document.getElementById('tags') as HTMLInputElement).value.split(',');
-    
-    var pict = this.dataService.createPicture(this.currentBlob, name, comment, tags)
+    if (!(this.pictName == null || this.pictName == ""))
+    {
+      var pict = this.dataService.createPicture(this.currentBlob, this.pictName, comment, tags)
       pict.subscribe(
         event => {
           for(var key in event)
@@ -77,12 +79,11 @@ export class CreateImageComponent implements OnInit {
         (err) => {
           console.log(' uF Upload Error:', err);
         }, () => {
-          console.log('Upload done');
-          
+          console.log('Upload done');          
         }
       )
-     
-      
+    }
+        
   }
 
 }

@@ -263,7 +263,7 @@ export class DataService {
   //Create starts here
   CreateCollection(name : string,  comment : string, tags : string[], pictures: string[])
   {
-    this.http.post(targetApi + 'collections/', {
+    return this.http.post(targetApi + 'collections/', {
       name : name,
       comment : comment,
       tags : tags,

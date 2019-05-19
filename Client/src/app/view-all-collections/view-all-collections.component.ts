@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -9,9 +10,11 @@ import { DataService } from '../data.service';
 })
 export class ViewAllCollectionsComponent implements OnInit {
 
-  constructor(private dataService : DataService ) { }
+  constructor(private dataService : DataService, private router : Router ) { }
 
   collections: any = [];
+
+
 
   getCollections() : void {
     this.dataService.GetAllCollections().subscribe((collections : {} ) => this.collections = collections);

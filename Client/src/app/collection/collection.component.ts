@@ -12,31 +12,91 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CollectionComponent implements OnInit {
 
 
-  @Input() collection: any;
+  @Input() collection = null;
+  @Input() id;
+  @Input() details = true;
   
 
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
 
-  
-
-
+  newTags: string;
+  killTags: string;
+  newName: string;
+  newComment: string;
+  newPics: any;
+  killPics: any;
+  managing : boolean = false;
 
 
   ngOnInit() {
     this.getCollection();
   }
 
+  notLocal()
+  {
+    console.log(this.route.toString())
+    return !(this.route.snapshot.url.toString().startsWith("collection"));
+  }
+
   async getCollection(){
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      await this.dataService.getCollection(id).subscribe(collection => this.collection = collection.tag,
+    this.id = this.route.snapshot.paramMap.get('id');
+    //console.log(this.collection._id)
+    //console.log(this.collection.name)
+    if (this.id) {
+      await this.dataService.getCollection(this.id).subscribe(collection => this.collection = collection.tag,
         error => console.log("Error :: " + error) );
 
     }
+    else 
+    {
+      this.id = this.collection._id;
+    }
   }
 
+  goToCollection()
+  {
+    console.log(this.id)
+    this.router.navigate(["/collection/" + this.id])
+  }
+
+
+
+  AddTags() : void  {
+    var newTagsArr : string[];
+    newTagsArr  = this.newTags.split(",");
+    this.dataService.addTagsToCollection(this.collection, newTagsArr)
+
+
+  }
+
+  KillTagsParse() : void {
+    var killList : string[];
+    killList  = this.killTags.split(",");
+    this.dataService.removeTagsFromCollection(this.collection, killList);
+
+  }
+
+  manage(set : boolean) {
+    this.managing = set
+  }
+
+  AddPictures() : void  {
+
+   
+    this.newPics  = this.newPics.split(",");
+    this.dataService.addPicturesToCollection(this.collection, this.newPics)
+
+  }
+
+  KillPictures() : void {
+    var killList : string[];
+    killList  = this.killPics.split(",");
+    this.dataService.removePicturesFromCollection(this.collection, killList);
+    
+  }
+
+
+
+
+
 }
-/*<div *ngFor = "let picture of collection.pictures">
-  {{picture.name}}
-  <app-image [picture]="picture" [details]=false></app-image>
-</div>*/

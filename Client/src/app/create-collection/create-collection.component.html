@@ -1,3 +1,28 @@
+<!doctype html>
+<html lang="en">
 <p>
-  create-collection works!
+
+  Create A Collection.
+
+  
+
 </p>
+<label>Name:
+    <input [(ngModel)]="collName" placeholder="Name Required"/>
+</label>
+<br>
+<label>Comments:
+    <input type="text" id="comments">
+</label>
+<br>
+<label>Tags (please seperate with commas):
+    <input type="text" id="tags">
+</label>
+<br>
+<label>Pictures (provide IDs from URLs, seperate with commas):
+    <input type="text" id="pictures">
+</label>
+<br>
+
+<button (click)="makeCollection()">Make Collection</button>
+</html>

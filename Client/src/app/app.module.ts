@@ -8,7 +8,6 @@ import { CollectionComponent } from './collection/collection.component';
 import { UserComponent } from './user/user.component';
 import { SearchComponent } from './search/search.component';
 import { CreateCollectionComponent } from './create-collection/create-collection.component';
-import { ManageCollectionComponent } from './manage-collection/manage-collection.component';
 import { CreateImageComponent } from './create-image/create-image.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
@@ -28,7 +27,6 @@ import { ViewAllCollectionsComponent } from './view-all-collections/view-all-col
     UserComponent,
     SearchComponent,
     CreateCollectionComponent,
-    ManageCollectionComponent,
     CreateImageComponent,
     RegisterUserComponent,
     ManageUserComponent,

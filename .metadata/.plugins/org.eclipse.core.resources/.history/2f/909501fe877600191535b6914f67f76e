@@ -1,7 +1,0 @@
-<!doctype html>
-<html lang="en">
-<p>
-  Upload images
-  <input type="file" id = "file" (change)= "uploadFile($event)">
-</p>
-</html>

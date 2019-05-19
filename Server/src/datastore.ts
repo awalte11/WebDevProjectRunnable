@@ -130,6 +130,7 @@ export class EverythingDatastore {
       } else {
         response = { error: false, message: "Data added", id: result.insertedId };
       }
+      console.log("ds");
       console.log(response);
       return response;
     });

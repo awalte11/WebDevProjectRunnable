@@ -279,7 +279,8 @@ export class DataService {
       comments : comment,
       tags : tags
 
-    });
+    }).pipe(map(this.extractData));
+    console.log("service");
     console.log(out);
     return out;
     
@@ -295,25 +296,7 @@ export class DataService {
 
 
 
-  CreatePicture(name : string, tags : string[])
-  {
-    /*let nextId: number;
-    nextId = 1;
-    this.pictures.forEach(picture => {
-        if (picture && picture.id >= nextId) {
-            nextId = picture.id + 1;
-        }
-    });
-    let newPicture : picture;
-    newPicture = new picture(name);
-    newPicture.id = nextId;
-    tags.forEach(tagId => {
-      this.addTagToPicture(newPicture, tagId)
-    });
-    this.pictures.push(newPicture);
-    localStorage.setItem(this.pictureKey, JSON.stringify(this.pictures));
-    localStorage.setItem(this.tagKey, JSON.stringify(this.tags));*/
-  }
+
 
 
 

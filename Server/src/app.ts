@@ -266,7 +266,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     }
     else {
         var out = await everythingDatastore.createPicture(name, user, comment, picture, tags);
-        console.log("app");
+        console.log("app")
         console.log (out);
 
         tags.forEach(async element => {

@@ -134,6 +134,9 @@ export class EverythingDatastore {
       console.log(response);
       return response;
     });
+    console.log("ds2");
+      console.log(response);
+      return response;
   }
 
   async createCollection(name: string, user: string, comment: string, pictures : String[], tags : string[] ) {

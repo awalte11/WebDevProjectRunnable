@@ -116,7 +116,7 @@ export class EverythingDatastore {
 
   
   async createPicture(name: string, user: string, comment: string, picture : Buffer, tags : string[] ) {
-
+    var newId;
     var newPicture = {
       name : name,
       user : user || "unimplemented",
@@ -124,8 +124,8 @@ export class EverythingDatastore {
       picture: picture,
       tags : tags
     }
-    var test = await this.pictures.insertOne( newPicture );
-    return test.ops[0];
+    await this.pictures.insertOne( newPicture, function(error, result){newId = result.insertedId} );
+    return newId;
   }
 
   async createCollection(name: string, user: string, comment: string, pictures : String[], tags : string[] ) {

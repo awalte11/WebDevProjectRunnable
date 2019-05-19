@@ -266,7 +266,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     }
     else {
         var out = await everythingDatastore.createPicture(name, user, comment, picture, tags);
-        console.log (out._id);
+        console.log (out);
 
         tags.forEach(async element => {
           var tagCheck = await everythingDatastore.readOneTag(element);

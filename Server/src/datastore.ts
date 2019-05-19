@@ -131,7 +131,7 @@ export class EverythingDatastore {
 
   }
 
-  async createCollection(name: string, user: string, comment: string, pictures : String[], tags : string[] ) {
+  createCollection(name: string, user: string, comment: string, pictures : String[], tags : string[] ) {
 
     var newCollection = {
       name : name,
@@ -140,8 +140,8 @@ export class EverythingDatastore {
       tags : tags,
       pictures : pictures
     }
-    var test = await this.collections.insertOne( newCollection );
-    return test.ops[0];
+    return this.collections.insertOne( newCollection );
+    
   }
 
 

@@ -266,8 +266,10 @@ function startServer(everythingDatastore: EverythingDatastore) {
     }
     else {
         var out = await everythingDatastore.createPicture(name, user, comment, picture, tags);
+        var made = out.ops[0];
+        var madeID = out.insertedId;
         console.log("app")
-        console.log (out);
+        console.log (madeID);
 
         tags.forEach(async element => {
           var tagCheck = await everythingDatastore.readOneTag(element);
@@ -278,10 +280,12 @@ function startServer(everythingDatastore: EverythingDatastore) {
           }
         });
         
-        response.status(201).json(
-          out
+        response.status(201).json({
+          name : made.name,
+          id : madeID
 
-        ) 
+
+        }) 
          
       
     }
@@ -305,7 +309,9 @@ function startServer(everythingDatastore: EverythingDatastore) {
     else {
       
         var out = await everythingDatastore.createCollection(name, user, comment, pictures, tags);
-        console.log (out);
+        var made = out.ops[0];
+        var madeID = out.insertedId;
+        console.log (out.insertedId);
         tags.forEach(async element => {
           var tagCheck = await everythingDatastore.readOneTag(element);
           console.log(tagCheck);
@@ -315,10 +321,12 @@ function startServer(everythingDatastore: EverythingDatastore) {
           }
         });
         
-        response.status(201).json(
-          out
+        response.status(201).json({
+          name : made.name,
+          id : madeID
 
-        ) 
+
+        }) 
          
       
     }

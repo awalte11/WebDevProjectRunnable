@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ImageService } from './Image.service';
+import { DataService } from '../data.service';
 
 
 
@@ -12,7 +12,7 @@ import { ImageService } from './Image.service';
 export class CreateImageComponent implements OnInit {
 
   constructor(
-    private imageService: ImageService
+    private dataService: DataService
 
   ) { }
 
@@ -49,10 +49,13 @@ export class CreateImageComponent implements OnInit {
   
 
   uploadFile() {
-   
-    this.imageService.uploadFile('https://project-tester.herokuapp.com/api/pictures', this.currentBlob)
+    const name  = ( document.getElementById('name') as HTMLInputElement).value;
+    const comment  = ( document.getElementById('comments') as HTMLInputElement).value;
+    const tags  = ( document.getElementById('tags') as HTMLInputElement).value.split(',');
+    var pict = this.dataService.createPicture(this.currentBlob, name, comment, tags)
       .subscribe(
         event => {
+          console.log(event.toString())
             /*
           if (event.type == HttpEvent.type.UploadProgress) {
             const percentDone = Math.round(100 * event.loaded / event.total);
@@ -66,8 +69,10 @@ export class CreateImageComponent implements OnInit {
           console.log(' uF Upload Error:', err);
         }, () => {
           console.log('Upload done');
+          
         }
       )
+      
   }
 
 }

@@ -270,7 +270,20 @@ export class DataService {
 
   }
 
-  //Create Picture is not my job, so to speak
+  createPicture(file, name : string,  comment : string, tags : string[]) {
+
+    
+    return this.http.post(targetApi + 'pictures/', {
+      name : name,
+      picture : file,
+      comments : comment,
+      tags : tags
+
+    });
+    
+    
+    
+}
 
 
 

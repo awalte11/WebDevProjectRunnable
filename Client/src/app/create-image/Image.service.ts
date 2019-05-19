@@ -13,17 +13,8 @@ export class ImageService {
 
   constructor(private http: HttpClient) { }
 
-    uploadFile(url: string, file ) {
-
-
-        return this.http.post(url, {
-          name : "Test With Blob",
-          picture : file
-        })
-        
-        
-    }
-
+    
+/*
     blobifyFile(file : File) : string {
       var out;
       this.readFile(file, function(e) {
@@ -38,6 +29,6 @@ export class ImageService {
       reader.readAsBinaryString (file);
       
     }
-   
+   */
 }
 

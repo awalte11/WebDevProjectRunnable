@@ -31,6 +31,8 @@ function startServer(everythingDatastore: EverythingDatastore) {
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
+  app.use(express.json({limit: '50mb'}));
+  app.use(express.urlencoded({limit: '50mb'}));
 
   
   //listens on port 3000

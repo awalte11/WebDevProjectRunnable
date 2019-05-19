@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CollectionComponent implements OnInit {
 
 
-  @Input() collection: Collection;
+  @Input() collection: any;
   
 
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
@@ -26,12 +26,17 @@ export class CollectionComponent implements OnInit {
     this.getCollection();
   }
 
-  getCollection() : void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+  async getCollection(){
+    const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-        this.collection = this.dataService.getCollection(id);
-        
+      await this.dataService.getCollection(id).subscribe(collection => this.collection = collection.tag,
+        error => console.log("Error :: " + error) );
+
     }
   }
 
 }
+/*<div *ngFor = "let picture of collection.pictures">
+  {{picture.name}}
+  <app-image [picture]="picture" [details]=false></app-image>
+</div>*/

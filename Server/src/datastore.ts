@@ -115,8 +115,8 @@ export class EverythingDatastore {
   
 
   
-  async createPicture(name: string, user: string, comment: string, picture : Buffer, tags : string[] ) {
-
+  createPicture  (name: string, user: string, comment: string, picture : Buffer, tags : string[] )   {
+    var response : {};
     var newPicture = {
       name : name,
       user : user || "unimplemented",
@@ -124,11 +124,14 @@ export class EverythingDatastore {
       picture: picture,
       tags : tags
     }
-    var test = await this.pictures.insertOne( newPicture );
-    return test.ops[0];
+     
+    return this.pictures.insertOne( newPicture);
+
+    
+
   }
 
-  async createCollection(name: string, user: string, comment: string, pictures : String[], tags : string[] ) {
+  createCollection(name: string, user: string, comment: string, pictures : String[], tags : string[] ) {
 
     var newCollection = {
       name : name,
@@ -137,8 +140,8 @@ export class EverythingDatastore {
       tags : tags,
       pictures : pictures
     }
-    var test = await this.collections.insertOne( newCollection );
-    return test.ops[0];
+    return this.collections.insertOne( newCollection );
+    
   }
 
 

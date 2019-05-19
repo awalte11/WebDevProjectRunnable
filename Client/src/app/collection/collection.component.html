@@ -1,17 +1,17 @@
-<p>
-  collection works!
-</p>
 
-{{collection.name}}
+
+Title: {{collection.name}}
+<br>
+By: {{collection.user}}
+<br>
+Comments: {{collection.comment}}
+<br>
+
 
 Tags
 <div *ngFor = "let tag of collection.tags">
   {{ tag }}
 </div>
 
-Pictures
+Pictures would go here, if they were currently implemented
 
-<div *ngFor = "let picture of collection.pictures">
-  {{picture.name}}
-  <app-image [picture]="picture" [details]=false></app-image>
-</div>

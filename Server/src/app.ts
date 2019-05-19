@@ -305,7 +305,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     else {
       
         var out = await everythingDatastore.createCollection(name, user, comment, pictures, tags);
-        console.log (out._id);
+        console.log (out);
         tags.forEach(async element => {
           var tagCheck = await everythingDatastore.readOneTag(element);
           console.log(tagCheck);
@@ -315,10 +315,10 @@ function startServer(everythingDatastore: EverythingDatastore) {
           }
         });
         
-        response.status(201).json({
-          "ID" : out._id
+        response.status(201).json(
+          out
 
-        }) 
+        ) 
          
       
     }

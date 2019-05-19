@@ -115,7 +115,7 @@ export class EverythingDatastore {
   
 
   
-  async createPicture  (name: string, user: string, comment: string, picture : Buffer, tags : string[] ) : Promise<{}>  {
+  createPicture  (name: string, user: string, comment: string, picture : Buffer, tags : string[] )   {
     var response : {};
     var newPicture = {
       name : name,
@@ -124,20 +124,8 @@ export class EverythingDatastore {
       picture: picture,
       tags : tags
     }
-     await this.pictures.insertOne( newPicture, function(error, result){
-      if(error) {
-        response = { error: true, message: "Error adding data" };
-        
-      } else {
-        response = { error: false, message: "Data added", id: result.insertedId };
-        
-      }
-      
-      console.log("ds");
-      console.log(response);
-      return response;
-    });
-    return response;
+     
+    return this.pictures.insertOne( newPicture);
 
     
 

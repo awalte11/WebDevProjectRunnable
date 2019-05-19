@@ -1,6 +1,18 @@
 <!doctype html>
 <html lang="en">
 <p>
-  create-image works!
+
+  Upload images
+
   
+
 </p>
+<form action="/uploadpicture" method="POST" enctype="multipart/form-data">
+<input type="file" id = "input "name="picture" accept="image/*" (change)= "selectFile($event)">
+</form>
+
+<button (click)="uploadFile()">Send Image</button>
+</html>
+
+
+

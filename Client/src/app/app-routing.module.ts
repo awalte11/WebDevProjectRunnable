@@ -6,10 +6,12 @@ import { ImageComponent } from './image/image.component';
 import { TagComponent } from './tag/tag.component';
 import { ManageCollectionComponent } from './manage-collection/manage-collection.component';
 import { ManageImageComponent } from './manage-image/manage-image.component';
+import { CreateImageComponent } from './create-image/create-image.component';
 import { ViewAllCollectionsComponent } from './view-all-collections/view-all-collections.component';
 import { SearchComponent } from './search/search.component';
 import { CreateImageComponent } from './create-image/create-image.component';
 import { CreateCollectionComponent } from './create-collection/create-collection.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo : 'frontpage', pathMatch: 'full' },
@@ -23,7 +25,8 @@ const routes: Routes = [
   { path: 'tag/:id', component: TagComponent },
   { path: 'collection/:id', component: CollectionComponent },
   { path: 'managecollection/:id', component: ManageCollectionComponent },
-  { path: 'manageimage/:id', component: ManageImageComponent }
+  { path: 'manageimage/:id', component: ManageImageComponent },
+  { path: 'upload', component: CreateImageComponent}
 ];
 
 @NgModule({

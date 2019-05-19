@@ -124,7 +124,7 @@ export class EverythingDatastore {
       picture: picture,
       tags : tags
     }
-     return await this.pictures.insertOne( newPicture/*, function(error, result){
+     return await this.pictures.insertOne( newPicture, function(error, result){
       if(error) {
         response = { error: true, message: "Error adding data" };
       } else {
@@ -133,7 +133,7 @@ export class EverythingDatastore {
       console.log("ds");
       console.log(response);
      
-    }*/);
+    });
 
     
 

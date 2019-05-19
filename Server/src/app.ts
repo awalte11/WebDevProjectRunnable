@@ -29,8 +29,8 @@ function startServer(everythingDatastore: EverythingDatastore) {
 
 //  app.use(morgan('dev'));//Uncomment when debuging, TS is throwing heisenbugs
 
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true, limit : "16mb" }));
+  app.use(bodyParser.json({ limit : "16mb" } ));
   app.use(express.json({limit: '50mb'}));
   app.use(express.urlencoded({limit: '50mb'}));
 

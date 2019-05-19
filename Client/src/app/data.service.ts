@@ -60,6 +60,8 @@ export class DataService {
 
   private extractData(res: Response) {
     let body = res;
+    console.log("extract");
+    console.log(body);
     return body || { };
   }
 
@@ -84,12 +86,13 @@ export class DataService {
   //Get one X methods start here
 
   getCollection(id: string): Observable<any>{
-
-    return this.http.get(targetApi + 'collections/' + id).pipe(map(this.extractData));
+    console.log(id);
+    return this.http.get(targetApi + 'collections/' + id).pipe(map(this.extractData));;
 
   }
 
   getPicture(id: string): Observable<any>{
+    console.log(id);
     return this.http.get(targetApi + 'pictures/' + id).pipe(map(this.extractData));
   }
 

@@ -9,7 +9,6 @@ import { ManageImageComponent } from './manage-image/manage-image.component';
 import { CreateImageComponent } from './create-image/create-image.component';
 import { ViewAllCollectionsComponent } from './view-all-collections/view-all-collections.component';
 import { SearchComponent } from './search/search.component';
-import { CreateImageComponent } from './create-image/create-image.component';
 import { CreateCollectionComponent } from './create-collection/create-collection.component';
 
 
@@ -19,7 +18,7 @@ const routes: Routes = [
   { path: 'frontpage',  component: FrontPageComponent },
   { path: 'newImage',  component: CreateImageComponent },
   { path: 'newCollection',  component: CreateCollectionComponent },
-  { path: 'allcollections',  component: ViewAllCollectionsComponent }, 
+  { path: 'allCollections',  component: ViewAllCollectionsComponent }, 
   { path: 'search',  component: SearchComponent }, 
   { path: 'image/:id', component: ImageComponent },
   { path: 'tag/:id', component: TagComponent },

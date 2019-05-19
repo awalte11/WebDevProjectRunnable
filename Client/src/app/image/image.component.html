@@ -3,5 +3,21 @@
 </p>
 
 
-{{picture.name}}
 
+
+
+
+
+
+
+<div *ngIf="details">
+    <img src = {{img}}>
+    <br>
+  Tags
+  
+  <div *ngFor = "let tag of picture.tags">
+    {{ tag }}
+  </div>
+    
+
+</div>

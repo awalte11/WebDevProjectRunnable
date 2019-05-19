@@ -26,11 +26,12 @@ export class CollectionComponent implements OnInit {
     this.getCollection();
   }
 
-  getCollection() : void {
+  async getCollection(){
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-        this.collection = this.dataService.getCollection(id);
-        
+      await this.dataService.getCollection(id).subscribe(collection => this.collection = collection.tag,
+        error => console.log("Error :: " + error) );
+
     }
   }
 

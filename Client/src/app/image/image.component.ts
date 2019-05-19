@@ -12,8 +12,14 @@ export class ImageComponent implements OnInit {
 
   @Input() picture = null;
   @Input() details = true;
-  details2 = false;
+   managing : boolean = false;
+  routeToManage : string;
+  @Input() id;
   img : string;
+  newTags: string;
+  killTags: string;
+  newName: string;
+  newComment: string;
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
 
   ngOnInit() {
@@ -30,8 +36,10 @@ export class ImageComponent implements OnInit {
     if (this.details)
     {
       
-      const id = this.route.snapshot.paramMap.get('id');
-      this.dataService.getPicture(id).subscribe(picture =>
+      this.id = this.route.snapshot.paramMap.get('id');
+      this.routeToManage = "/manageimage/" + this.id;
+      console.log(this.routeToManage)
+      this.dataService.getPicture(this.id).subscribe(picture =>
            {this.picture = picture.tag}, error => console.log("Error :: " + error),
             ()=> {
               console.log(this.picture.name);
@@ -42,6 +50,39 @@ export class ImageComponent implements OnInit {
       
 
     }
+  }
+  manage(set : boolean) {
+    this.managing = set
+  }
+
+  AddTags() : void  {
+    var newTagsArr : string[];
+    newTagsArr  = this.newTags.split(",");
+    console.log(newTagsArr)
+    this.dataService.addTagsToPicture(this.id, newTagsArr).subscribe();
+
+
+  }
+
+  Rename() : void  {
+    this.dataService.renamePicture(this.id, this.newName).subscribe();
+
+
+  }
+
+  reComment() : void  {
+    this.dataService.reCommentPicture(this.id, this.newComment).subscribe();
+
+
+  }
+
+  KillTagsParse() : void {
+    var killList : string[];
+    killList  = this.killTags.split(",");
+    this.dataService.removeTagsFromPicture(this.id, killList).subscribe();;
+
+    
+
   }
 
 }

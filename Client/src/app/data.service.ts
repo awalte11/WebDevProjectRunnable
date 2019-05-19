@@ -242,7 +242,8 @@ export class DataService {
    * Delete a collection. Don't worry about the details, the server handles that
    * @param id the ID
    */
-  DeleteCollection(id: string): void {
+  DeleteCollection(id: string) {
+    console.log("deleting")
     this.http.delete(targetApi + 'collections/' + id);
   }
 
@@ -250,8 +251,9 @@ export class DataService {
    * Delete a picture. Don't worry about the details, the server handles that
    * @param id the ID
    */
-  DeletePicture(id: string): void {
-    this.http.delete(targetApi + 'pictures/' + id);
+  DeletePicture(id: string) {
+    console.log("deleting")
+    return this.http.delete(targetApi + 'pictures/' + id);
   }
 
   //DeleteTag is deliberately not a thing here.

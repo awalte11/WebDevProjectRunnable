@@ -25,11 +25,9 @@ export class ImageComponent implements OnInit {
   ngOnInit() {
       this.getPicture();
       
-      this.deployPicture();
-  }
-  deployPicture() {
       
   }
+
 
   getPicture() {
     
@@ -67,7 +65,14 @@ export class ImageComponent implements OnInit {
   Rename() : void  {
     this.dataService.renamePicture(this.id, this.newName).subscribe();
 
+   
+  }
 
+  
+  deleteImage() : void  {
+    this.dataService.DeletePicture(this.id).subscribe();
+
+    this.router.navigate(['frontpage'])
   }
 
   reComment() : void  {

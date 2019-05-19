@@ -124,16 +124,20 @@ export class EverythingDatastore {
       picture: picture,
       tags : tags
     }
-     return await this.pictures.insertOne( newPicture, function(error, result){
+     await this.pictures.insertOne( newPicture, function(error, result){
       if(error) {
         response = { error: true, message: "Error adding data" };
+        return response;
       } else {
         response = { error: false, message: "Data added", id: result.insertedId };
+        return response;
       }
+      
       console.log("ds");
       console.log(response);
      
     });
+    
 
     
 

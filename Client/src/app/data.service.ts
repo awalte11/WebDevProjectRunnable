@@ -127,7 +127,7 @@ export class DataService {
       removeTags : removeTags
     }
     
-    return this.http.put(targetApi + 'pictures/' + id, body);
+    return this.http.patch(targetApi + 'pictures/' + id, body);
   }
 
   //For when you just want to make one change
@@ -183,7 +183,7 @@ export class DataService {
       removeTags : removeTags
     }
     
-    return this.http.put(targetApi + 'collections/' + id, body);
+    return this.http.patch(targetApi + 'collections/' + id, body);
   }
 
   //For when you just want to make one change

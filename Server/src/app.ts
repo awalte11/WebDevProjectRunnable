@@ -21,7 +21,7 @@ EverythingDatastore
   });
 
 //starts express server
-function startServer(everythingDatastore: EverythingDatastore) {
+async function startServer(everythingDatastore: EverythingDatastore) {
   const app = express();
 
   var port = process.env.PORT || 5000;

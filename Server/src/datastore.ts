@@ -115,8 +115,8 @@ export class EverythingDatastore {
   
 
   
-  async createPicture  (name: string, user: string, comment: string, picture : Buffer, tags : string[] ) {
-    var response : Object;
+  async createPicture  (name: string, user: string, comment: string, picture : Buffer, tags : string[] ) : Promise<{}>  {
+    var response : {};
     var newPicture = {
       name : name,
       user : user || "unimplemented",
@@ -137,7 +137,7 @@ export class EverythingDatastore {
       console.log(response);
       return response;
     });
-    
+    return response;
 
     
 

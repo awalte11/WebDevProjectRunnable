@@ -1,3 +1,8 @@
+<ng-container *ngIf="details && img==null; else loaded">
+  Loading... {{picture.name}}
+</ng-container>
+
+<ng-template #loaded>
 <p div *ngIf="details">
   <strong>Image!</strong>
 </p>
@@ -75,3 +80,4 @@
 
   </ng-template>
 </div>
+</ng-template>

@@ -1,3 +1,28 @@
 <p>
-  search works!
+  Get Pictures or Collections by Tag
 </p>
+<div *ngIf="tag!=null; else searchBlock">
+  {{tag}}
+  <ng-container *ngIf="findPictures">
+  <div *ngFor="let picture of pictures" class="frame">
+    <app-image [id]="picture._id"></app-image>
+  </div>
+  </ng-container>
+  <ng-container *ngIf="findCollections" >
+    <div *ngFor="let collection of collections" class="frame">
+      <app-collection [id]="collection._id"></app-collection>
+    </div>
+    </ng-container>
+    <br>
+    <button (click)="clear()">New Search</button>
+</div>
+
+<ng-template #searchBlock>
+  <input type="text" id="searchInput">
+  <br>
+  <label>
+  <input type="checkbox" [(ngModel)]="findPictures" placeholder="false"> Pictures<br>
+  <input type="checkbox" [(ngModel)]="findCollections" placeholder="true"> Collection<br>
+  </label>
+  <button (click)="doSearch()">Search for tag</button>
+</ng-template>

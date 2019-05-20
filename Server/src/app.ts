@@ -34,7 +34,8 @@ function startServer(everythingDatastore: EverythingDatastore) {
   app.use(express.json({limit: '50mb'}));
   app.use(express.urlencoded({limit: '50mb'}));
 
-  
+  app.options('/api/pictures', cors());
+  app.options('/api/collections', cors());
   //listens on port 3000
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
@@ -263,7 +264,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
     }
   });
 
-  app.options('/api/pictures', cors());
+
   app.post('/api/pictures', async (request, response) => {
     console.log("post");
     const name = request.body.name;  

@@ -1,63 +1,62 @@
-
-
-
-
+<p div *ngIf="details">
+  <strong>Image!</strong>
+</p>
 <br>
 <ng-container *ngIf="managing; else nameBlock">
 
-    <label>Name: 
+    <label>Name:
         <input [(ngModel)]="newName" placeholder={{picture.name}}/>
-      
+
       </label>
-      
+
       <button (click)="Rename()">Rename</button>
     <br>
     </ng-container>
     <ng-template #nameBlock>
         Title: {{picture.name}}
-        </ng-template>  
+        </ng-template>
 <br>
 
 <ng-container *ngIf="managing; else commentBlock">
 
-    <label>New Commentary: 
+    <label>New Commentary:
         <input [(ngModel)]="newComment" placeholder={{picture.comment}}/>
-      
+
       </label>
-      
+
       <button (click)="reComment()">Change Comment</button>
     <br>
     </ng-container>
     <ng-template #commentBlock>
         Commentary: {{picture.comment}}
-        </ng-template>  
+        </ng-template>
 <br>
 <div *ngIf="details">
-  
+
     <img src = {{img}} height="400" width="400">
-    
+
     <br>
   Tags:
   <br>
-  
+
   <ng-container *ngFor = "let tag of picture.tags">
     {{ tag }},
   </ng-container>
   <br>
   <ng-container *ngIf="managing; else notmanage">
 
-      <label>New Tags: 
+      <label>New Tags:
           <input [(ngModel)]="newTags" placeholder=""/>
-        
+
         </label>
-        
+
         <button (click)="AddTags()">Add Tags</button>
         <br>
-        <label>Remove Tags: 
+        <label>Remove Tags:
           <input [(ngModel)]="killTags" placeholder=""/>
-        
+
         </label>
-        
+
         <button (click)="KillTagsParse()">Kill These Tags</button>
         <br>
         <button (click)="manage(false)">Stop Managing Image</button>
@@ -65,7 +64,7 @@
         <br>
         <br>
         <br>
-       
+
         <button (click)="deleteImage()">Delete Image</button>
     </ng-container>
 
@@ -73,7 +72,6 @@
   <button (click)="manage(true)">Manage Image</button>
 
 
-  
-  </ng-template>  
-</div>
 
+  </ng-template>
+</div>

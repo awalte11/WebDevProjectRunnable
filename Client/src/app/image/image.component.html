@@ -36,6 +36,9 @@
         Commentary: {{picture.comment}}
         </ng-template>
 <br>
+<ng-container *ngFor = "let tag of picture.tags">
+    {{ tag }},
+  </ng-container>
 <div *ngIf="details">
 
     <img src = {{img}} height="400" width="400">
@@ -44,9 +47,7 @@
   Tags:
   <br>
 
-  <ng-container *ngFor = "let tag of picture.tags">
-    {{ tag }},
-  </ng-container>
+
   <br>
   <ng-container *ngIf="managing; else notmanage">
 
@@ -71,7 +72,7 @@
 
         </label>
 
-        <button (click)="AddToCollection()">Add Tags</button>
+        <button (click)="addToCollection()">Add Tags</button>
         <br>
         <br>
         <br>
@@ -88,3 +89,7 @@
   </ng-template>
 </div>
 </ng-template>
+
+<div *ngIf=notLocal()>
+    <button (click)="goToImage()">Go To Image</button>
+</div>

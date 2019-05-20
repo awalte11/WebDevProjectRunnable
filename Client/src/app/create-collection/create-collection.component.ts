@@ -19,12 +19,18 @@ export class CreateCollectionComponent implements OnInit {
   collName : string;
 
   async makeCollection() {
-    const comment  = ( document.getElementById('comments') as HTMLInputElement).value;
-    const tags  = ( document.getElementById('tags') as HTMLInputElement).value.split(',');
-    const pictures  = ( document.getElementById('pictures') as HTMLInputElement).value.split(',');
+    var comment = ( document.getElementById('comments') as HTMLInputElement).value;
+    var tags  = ( document.getElementById('tags') as HTMLInputElement).value;
+    var tagsArray = [];
+    if (tags.length > 0)
+      tagsArray = tags.split(',')
+    const pictures  = ( document.getElementById('pictures') as HTMLInputElement).value;
+    var pictsArry = [];
+    if (pictures.length > 0)
+      pictsArry = pictures.split(',')
     if (!(this.collName == null || this.collName == ""))
     {
-      var pict = this.dataService.CreateCollection(this.collName, comment, tags, pictures)
+      var pict = this.dataService.CreateCollection(this.collName, comment, tagsArray, pictsArry)
       pict.subscribe(
         event => {
           for(var key in event)

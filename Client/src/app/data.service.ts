@@ -72,10 +72,13 @@ export class DataService {
   }
 
   private trimArray(arr: String[]) {
+    var arr2 = [];
     arr.forEach(element => {
-      element.trim();
+      arr2.push(element.trim());
+      
     })
-    return arr;
+    console.log(arr2)
+    return arr2;
   }
   //Get all X methods start here
 
@@ -112,6 +115,11 @@ export class DataService {
     return this.http.get(targetApi + 'pictures/' + id).pipe(map(this.extractData));
   }
 
+  getPictureNoImage(id: string): Observable<any>{
+    console.log(id);
+    return this.http.get(targetApi + 'picturesData/' + id).pipe(map(this.extractData));
+  }
+
   doesTagExist(tag : string) {   
     return this.http.get(targetApi + 'tags/' + tag).pipe(map(this.isData404));
   }
@@ -140,6 +148,8 @@ export class DataService {
    */
   ModifyPicture(id : string, name : string, comment : string, addTags : string [], removeTags : string[]) : Observable<any>{
     
+    
+
     var body = {
       name : name,
       comment : comment,
@@ -282,7 +292,7 @@ export class DataService {
    */
   DeleteCollection(id: string) {
     console.log("deleting")
-    this.http.delete(targetApi + 'collections/' + id);
+    return this.http.delete(targetApi + 'collections/' + id);
   }
 
     /**

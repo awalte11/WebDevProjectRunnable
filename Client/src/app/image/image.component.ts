@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { picture } from '../picture';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../data.service';
 
@@ -24,6 +23,7 @@ export class ImageComponent implements OnInit {
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
 
   ngOnInit() {
+    console.log(this.picture)
       this.getPicture();
       
       
@@ -49,9 +49,24 @@ export class ImageComponent implements OnInit {
       
 
     }
+    else {
+      console.log(this.picture)
+      console.log(this.id)
+    }
   }
   manage(set : boolean) {
     this.managing = set
+  }
+  goToImage()
+  {
+    console.log(this.id)
+    this.router.navigate(["/image/" + this.picture._id])
+  }
+
+  
+  notLocal()
+  {
+    return !(this.route.snapshot.url.toString().startsWith("image"));
   }
 
   AddTags() : void  {
@@ -71,7 +86,7 @@ export class ImageComponent implements OnInit {
 
   addToCollection() : void {
     var newColl = this.newCollName.trim();
-    this.dataService.addPictureToNamedCollection(newColl, this.id)
+    this.dataService.addPictureToNamedCollection(newColl, this.id).subscribe();
   }
 
   

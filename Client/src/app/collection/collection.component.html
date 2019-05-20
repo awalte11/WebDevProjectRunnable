@@ -76,8 +76,8 @@
 
         <button (click)="manage(false)">Stop Managing Collection</button>
         <br>
-        <div *ngFor = "let picture of collection.pictures">
-            {{picture.name}}
+        <strong>Pictures</strong>
+        <div *ngFor = "let picture of collection.pictures" class="frame">
             <app-image [picture]="picture" [details]=false></app-image>
           </div>
         <br>
@@ -88,9 +88,9 @@
     </ng-container>
 
   <ng-template #notmanage>
-      <div *ngFor = "let picture of collection.pictures">
-          {{picture.name}}
-          <app-image [picture]="picture" [details]=false></app-image>
+      <strong>Pictures</strong>
+      <div *ngFor = "let picture of pictureArr" class="frame">
+          <app-image [picture]="picture" [details]=false ></app-image>
         </div>
   <button (click)="manage(true)">Manage Collection</button>
 

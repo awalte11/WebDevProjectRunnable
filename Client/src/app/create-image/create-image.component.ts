@@ -55,10 +55,13 @@ export class CreateImageComponent implements OnInit {
   async uploadFile() {
     
     const comment  = ( document.getElementById('comments') as HTMLInputElement).value;
-    const tags  = ( document.getElementById('tags') as HTMLInputElement).value.split(',');
+    var tags  = ( document.getElementById('tags') as HTMLInputElement).value;
+    var tagsArray = [];
+    if (tags.length > 0)
+      tagsArray = tags.split(',')
     if (!(this.pictName == null || this.pictName == ""))
     {
-      var pict = this.dataService.createPicture(this.currentBlob, this.pictName, comment, tags)
+      var pict = this.dataService.createPicture(this.currentBlob, this.pictName, comment, tagsArray)
       pict.subscribe(
         event => {
           for(var key in event)

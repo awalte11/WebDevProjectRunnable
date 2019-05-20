@@ -4,8 +4,8 @@
 
 Look at our fine collection of cat memes!
 <div  *ngFor="let collection of collections" class="frame">
-  <app-collection [collection]="collection" [details]="false" ></app-collection>
-  
+  <app-collection [collection]="collection" [details]="false" [id]="collection._id"></app-collection>
+
   <br>
   
 

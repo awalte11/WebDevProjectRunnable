@@ -26,6 +26,7 @@ export class CollectionComponent implements OnInit {
   newPics: any;
   killPics: any;
   managing : boolean = false;
+  pictureArr : any[] = [];
 
 
   ngOnInit() {
@@ -34,23 +35,28 @@ export class CollectionComponent implements OnInit {
 
   notLocal()
   {
-    console.log(this.route.toString())
     return !(this.route.snapshot.url.toString().startsWith("collection"));
   }
 
-  async getCollection(){
-    this.id = this.route.snapshot.paramMap.get('id');
+  getCollection(){
+
+    
+    if (this.id == null)
+        this.id = this.route.snapshot.paramMap.get('id');
+    this.dataService.getCollection(this.id).subscribe(collection =>
+      {this.collection = collection.tag}, error => console.log("Error :: " + error),
+        ()=> {
+          console.log(this.collection.name);
+          
+          this.collection.pictures.forEach(element => {(this.dataService.getPictureNoImage(element).subscribe(pict => {this.pictureArr.push(pict.tag) }))})
+          
+        } );
     //console.log(this.collection._id)
     //console.log(this.collection.name)
-    if (this.id) {
-      await this.dataService.getCollection(this.id).subscribe(collection => this.collection = collection.tag,
-        error => console.log("Error :: " + error) );
+    
+  
+    
 
-    }
-    else 
-    {
-      this.id = this.collection._id;
-    }
   }
 
   goToCollection()
@@ -95,7 +101,11 @@ export class CollectionComponent implements OnInit {
     
   }
 
+  deleteCollection() : void  {
+    this.dataService.DeleteCollection(this.id).subscribe();
 
+    this.router.navigate(['frontpage'])
+  }
 
 
 

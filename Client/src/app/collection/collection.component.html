@@ -7,19 +7,18 @@
     <label>Title: 
         <input [(ngModel)]="newName" placeholder={{collection.name}}/>      
       </label>
-      
+
       <button (click)="Rename()">Rename</button>
     
     </ng-container>
 
-
 <ng-container *ngIf="managing; else commentBlock">
 
-    <label>New Commentary: 
+    <label>New Commentary:
         <input [(ngModel)]="newComment" placeholder={{collection.comment}}/>
-      
+
       </label>
-      
+
       <button (click)="reComment()">Change Comment</button>
     <br>
 </ng-container>
@@ -40,32 +39,32 @@ Tags:
 
   <ng-container *ngIf="managing; else notmanage">
 
-      <label>New Tags: 
+      <label>New Tags:
           <input [(ngModel)]="newTags" placeholder=""/>
-        
+
         </label>
-        
+
         <button (click)="AddTags()">Add Tags</button>
         <br>
 
-        <label>Remove Tags: 
+        <label>Remove Tags:
           <input [(ngModel)]="killTags" placeholder=""/>
-        
+
         </label>
         <button (click)="KillTagsParse()">Delete These Tags</button>
         <br>
 
-        <label>Add Pictures: 
+        <label>Add Pictures:
             <input [(ngModel)]="newPics" placeholder=""/>
-          
+
           </label>
-          
+
           <button (click)="AddPictures()">Add Pictures</button>
           <br>
-  
-          <label>Remove Pictures: 
+
+          <label>Remove Pictures:
             <input [(ngModel)]="killPics" placeholder=""/>
-          
+
           </label>
           <button (click)="KillPictures()">Remove These Pictures</button>
           <br>
@@ -73,14 +72,13 @@ Tags:
         <button (click)="manage(false)">Stop Managing Collection</button>
         <br>
         <strong>Pictures</strong>
-        <div *ngFor = "let picture of collection.pictures" class="frame">
+        <div *ngFor = "let picture of pictureArr" class="frame">
             <app-image [picture]="picture" [details]=false></app-image>
           </div>
         <br>
         <br>
-        <br>
-       
-        <button (click)="deleteCollection()">Delete Collection</button>
+
+        <button (click)="deleteCollection()">Delete Collection</button><br>
     </ng-container>
 
   <ng-template #notmanage>
@@ -88,22 +86,11 @@ Tags:
       <div *ngFor = "let picture of pictureArr" class="frame">
           <app-image [picture]="picture" [details]=false ></app-image>
         </div>
-  <button (click)="manage(true)">Manage Collection</button>
+  <button (click)="manage(true)">Manage Collection</button><br>
 
-
-  
-  </ng-template>  
-
-  
+  </ng-template>
 </div>
-
-
-
-
-
-
 
 <div *ngIf=notLocal()>
-    <button (click)="goToCollection()">Go To Collection</button>
+    <br><button (click)="goToCollection()">Go To Collection</button><br>
 </div>
-

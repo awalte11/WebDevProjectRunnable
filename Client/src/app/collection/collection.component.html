@@ -1,17 +1,99 @@
-
-
-Title: {{collection.name}}
 <br>
-By: {{collection.user}}
-<br>
-Comments: {{collection.comment}}
+<ng-container *ngIf="managing; else nameBlock">
+
+    <label>Title:
+        <input [(ngModel)]="newName" placeholder={{collection.name}}/>
+
+      </label>
+
+      <button (click)="Rename()">Rename</button>
+    <br>
+    </ng-container>
+    <ng-template #nameBlock>
+        Title: {{collection.name}}
+    </ng-template>
 <br>
 
+<ng-container *ngIf="managing; else commentBlock">
 
-Tags
-<div *ngFor = "let tag of collection.tags">
-  {{ tag }}
+    <label>New Commentary:
+        <input [(ngModel)]="newComment" placeholder={{collection.comment}}/>
+
+      </label>
+
+      <button (click)="reComment()">Change Comment</button>
+    <br>
+    </ng-container>
+    <ng-template #commentBlock>
+        Commentary: {{collection.comment}}
+        </ng-template>
+<br>
+<div *ngIf="details">
+
+
+
+    <br>
+  Tags:
+  <br>
+
+  <ng-container *ngFor = "let tag of collection.tags">
+    {{ tag }},
+  </ng-container>
+  <br>
+  <ng-container *ngIf="managing; else notmanage">
+
+      <label>New Tags:
+          <input [(ngModel)]="newTags" placeholder=""/>
+
+        </label>
+
+        <button (click)="AddTags()">Add Tags</button>
+        <br>
+
+        <label>Remove Tags:
+          <input [(ngModel)]="killTags" placeholder=""/>
+
+        </label>
+        <button (click)="KillTagsParse()">Delete These Tags</button>
+        <br>
+
+        <label>Add Pictures:
+            <input [(ngModel)]="newPics" placeholder=""/>
+
+          </label>
+
+          <button (click)="AddPictures()">Add Pictures</button>
+          <br>
+
+          <label>Remove Pictures:
+            <input [(ngModel)]="killPics" placeholder=""/>
+
+          </label>
+          <button (click)="KillPictures()">Remove These Pictures</button>
+          <br>
+
+        <tab><button (click)="manage(false)">Stop Managing Collection</button>
+        <br>
+        <div *ngFor = "let picture of collection.pictures">
+            {{picture.name}}
+            <app-image [picture]="picture" [details]=false></app-image>
+          </div>
+        <br>
+        <br>
+
+        <tab><button (click)="deleteCollection()">Delete Collection</button><br>
+    </ng-container>
+
+  <ng-template #notmanage>
+      <div *ngFor = "let picture of collection.pictures">
+          {{picture.name}}
+          <app-image [picture]="picture" [details]=false></app-image>
+        </div>
+  <tab><tab><button (click)="manage(true)">Manage Collection</button><br>
+
+  </ng-template>
 </div>
 
-Pictures would go here, if they were currently implemented
-
+<div *ngIf=notLocal()>
+    <br><tab><tab><button (click)="goToCollection()">Go To Collection</button><br>
+</div>

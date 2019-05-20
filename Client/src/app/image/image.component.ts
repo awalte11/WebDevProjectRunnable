@@ -36,18 +36,12 @@ export class ImageComponent implements OnInit {
     {
       if (this.id == null)
         this.id = this.route.snapshot.paramMap.get('id');
-
-      
       this.dataService.getPicture(this.id).subscribe(picture =>
-           {this.picture = picture.tag}, error => console.log("Error :: " + error),
-            ()=> {
-              console.log(this.picture.name);
-              this.img = 'data:image/jpeg;base64,' + btoa(this.picture.picture)
-            } );
-      
-      
-      
-
+        {this.picture = picture.tag}, error => console.log("Error :: " + error),
+        ()=> {
+          console.log(this.picture.name);
+          this.img = 'data:image/jpeg;base64,' + btoa(this.picture.picture)
+        } );
     }
     else {
       console.log(this.picture)

@@ -268,11 +268,11 @@ export class DataService {
 
 
 
-/**
- * Add picture to a named collection
- * @param collection the name of the collection
- * @param picture the picture's objectID
- */
+  /**
+   * Add picture to a named collection
+   * @param collection the name of the collection
+   * @param picture the picture's objectID
+   */
   addPictureToNamedCollection(collection : string, picture : string)
   {
 

@@ -59,6 +59,10 @@ export class CreateImageComponent implements OnInit {
     var tagsArray = [];
     if (tags.length > 0)
       tagsArray = tags.split(',')
+    const colls  = ( document.getElementById('collectionsToJoin') as HTMLInputElement).value;
+    var collsArry = [];
+    if (colls.length > 0)
+      collsArry = colls.split(',')  
     if (!(this.pictName == null || this.pictName == ""))
     {
       var pict = this.dataService.createPicture(this.currentBlob, this.pictName, comment, tagsArray)
@@ -73,6 +77,10 @@ export class CreateImageComponent implements OnInit {
 
           }
           console.log(this.newID)
+          collsArry.forEach(coll => {
+            coll = coll.trim();
+            this.dataService.addPictureToNamedCollection(coll, this.newID).subscribe();
+          })
           if (this.newID != null)
           {
             this.router.navigate(['image/' + this.newID])

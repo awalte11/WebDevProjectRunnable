@@ -17,7 +17,9 @@
 <label>Tags (please seperate with commas):
     <input type="text" id="tags">
 </label><br>
-
+<label>Collections to add to (please seperate with commas):
+        <input type="text" id="collectionsToJoin">
+    </label><br>
 <form action="/uploadpicture" method="POST" enctype="multipart/form-data">
 <input type="file" id = "input "name="picture" accept="image/*" (change)= "selectFile($event)">
 </form><br><br>

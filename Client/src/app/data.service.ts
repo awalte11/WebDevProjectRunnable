@@ -98,9 +98,13 @@ export class DataService {
   //Get one X methods start here
 
   getCollection(id: string): Observable<any>{
-    console.log(id);
-    return this.http.get(targetApi + 'collections/' + id).pipe(map(this.extractData));;
 
+    return this.http.get(targetApi + 'collections/' + id).pipe(map(this.extractData));;
+  }
+
+  getNamedCollection(name: string ): Observable<any>{
+
+    return this.http.get(targetApi + 'collectionsbyname/' + name).pipe(map(this.extractData));;
   }
 
   getPicture(id: string): Observable<any>{
@@ -251,6 +255,24 @@ export class DataService {
   {
     return this.ModifyCollection(collection, null, null, null, null, null, tags)
   }
+
+
+
+/**
+ * Add picture to a named collection
+ * @param collection the name of the collection
+ * @param picture the picture's objectID
+ */
+  addPictureToNamedCollection(collection : string, picture : string)
+  {
+
+    var body = {
+      addPictures : this.trimArray([picture]),
+    }
+    
+    return this.http.patch(targetApi + 'collectionsbyname/' + collection, body);
+  }
+
 
   //Deletes start here
 

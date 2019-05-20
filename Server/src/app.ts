@@ -178,8 +178,6 @@ function startServer(everythingDatastore: EverythingDatastore) {
          "errorText" : "Bad Id."
         });
      }
-      
-      
   });
 
   app.get('/api/collections/:id', async (request: Request, response: Response, next) => {
@@ -204,6 +202,31 @@ function startServer(everythingDatastore: EverythingDatastore) {
           "paramaterValue" : id,   
           "errorText" : "No collection for this id."
       });
+    }
+  });
+
+  app.get('/api/collectionbyname/:name', async (request: Request, response: Response, next) => {
+    const name = request.params.named;
+    try {
+
+      const tag = await everythingDatastore.readOneCollectionByName(name);
+      if (tag == null)//because *somehow* catch isn't working. damnit js.
+        {
+          response.status(404).json({
+           "paramaterName" : "id",
+            "paramaterValue" : name,   
+            "errorText" : "No collection with this name."
+           });
+       }
+       else
+         response.json({ tag });
+      } catch (error) {
+      
+        response.status(404).json({
+          "paramaterName" : "id",
+           "paramaterValue" : name,   
+           "errorText" : "No collection with this name."
+        });
     }
   });
 
@@ -359,7 +382,6 @@ function startServer(everythingDatastore: EverythingDatastore) {
     else
     {
 
-    
       const nameIn = request.body.name;
       const commentIn = request.body.comment;
       const addTags : string[] = request.body.addTags;
@@ -493,7 +515,7 @@ function startServer(everythingDatastore: EverythingDatastore) {
 
       if (!(!removePictures || removePictures == [] ))
       {
-        var picturesToKill = { $pull: { tags : { $in : removePictures} }};
+        var picturesToKill = { $pull: { pictures : { $in : removePictures} }};
         everythingDatastore.updateCollection(id, picturesToKill);
         didsomething = true;
       }
@@ -510,6 +532,98 @@ function startServer(everythingDatastore: EverythingDatastore) {
     }
 
     });
+
+    app.patch('/api/collectionsbyname/:name', async (request, response) => {
+      console.log("Update Start");
+      const nameOf = request.params.name;
+      var current = everythingDatastore.readOneCollectionByName(nameOf);
+      if (current == null)
+      {
+        response.status(404).json({
+          "paramaterName" : "name",
+           "paramaterValue" : nameOf,   
+           "errorText" : "No collection for this name."
+          });
+  
+      }
+      else
+      {
+        const nameIn = request.body.name;
+        const commentIn = request.body.comment;
+        const addPictures : string[] = request.body.addPictures;
+        const removePictures : string[] = request.body.removePictures;
+        const addTags : string[] = request.body.addTags;
+        const removeTags : string[] = request.body.removeTags;
+        var didsomething : Boolean = false;
+        
+        
+        
+  
+        if (!(!nameIn || nameIn == "" ))
+        {
+          var nameUpdate = {$set : { name : nameIn}}
+          everythingDatastore.updateNamedCollection(nameOf, nameUpdate)
+          didsomething = true;
+        }
+        if (!(!commentIn || commentIn == "" ))
+        {
+          var commentUpdate = {$set : { comment : commentIn}}
+          everythingDatastore.updateNamedCollection(nameOf, commentUpdate)
+          didsomething = true;
+        }
+        if (!(!addTags || addTags == [] ))
+        {
+          
+          var tagsToAdd = { $addToSet : { tags : { $each : addTags }}}
+          everythingDatastore.updateNamedCollection(nameOf, tagsToAdd)
+          addTags.forEach(async element => {
+            var tagCheck = await everythingDatastore.readOneTag(element);
+            console.log(tagCheck);
+            if (tagCheck == null)
+            {
+              everythingDatastore.createTag(element);
+            }
+          });
+  
+          
+          didsomething = true;
+        }
+  
+        if (!(!removeTags || removeTags == [] ))
+        {
+          var tagsToKill = { $pull: { tags : { $in : removeTags} }};
+          everythingDatastore.updateNamedCollection(nameOf, tagsToKill);
+          didsomething = true;
+        }
+  
+        if (!(!addPictures || addPictures == [] ))
+        {
+          console.log(addPictures);
+          var picturesToAdd = { $addToSet : { pictures : { $each : addPictures }}};
+          everythingDatastore.updateNamedCollection(nameOf, picturesToAdd);
+  
+          didsomething = true;
+        }
+  
+        if (!(!removePictures || removePictures == [] ))
+        {
+          var picturesToKill = { $pull: { pictures : { $in : removePictures} }};
+          everythingDatastore.updateNamedCollection(nameOf, picturesToKill);
+          didsomething = true;
+        }
+  
+        if(!didsomething)
+        {
+          response.status(400).json({
+                "paramaterName" : "all",
+                "paramaterValue" : null,
+                "errorText" : "Empty Request."
+            })
+        }
+        else response.status(200).send("Updated");
+      }
+  
+      });
 
   app.delete('/api/collections/:id', async (request, response) => {
     const id = request.params.id;

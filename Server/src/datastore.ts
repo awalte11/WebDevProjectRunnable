@@ -71,6 +71,13 @@ export class EverythingDatastore {
     
   }
 
+  async readOneCollectionByName(nameIn: string) {
+    
+    return await this.collections.findOne({name : nameIn})
+      
+    
+  }
+
   //Not sure if will implement
   /*
   async deleteTag(id: string) {
@@ -83,7 +90,7 @@ export class EverythingDatastore {
   }
 
   async deleteCollection(id: string) {
-    const test = await this.pictures.deleteOne({ _id: new ObjectId(id) });
+    const test = await this.collections.deleteOne({ _id: new ObjectId(id) });
   }
 
 
@@ -104,6 +111,11 @@ export class EverythingDatastore {
     return await this.collections.updateOne({ _id: id }, updateInfo);
   }
 
+  async updateNamedCollection(nameIn: string, updateInfo : any) {
+    
+    return await this.collections.updateOne({ name: name}, updateInfo);
+  }
+
  async createTag(name: string) {
 
     var newTag = {
@@ -116,7 +128,6 @@ export class EverythingDatastore {
 
   
   createPicture  (name: string, user: string, comment: string, picture : Buffer, tags : string[] )   {
-    var response : {};
     var newPicture = {
       name : name,
       user : user || "unimplemented",
@@ -126,8 +137,6 @@ export class EverythingDatastore {
     }
      
     return this.pictures.insertOne( newPicture);
-
-    
 
   }
 

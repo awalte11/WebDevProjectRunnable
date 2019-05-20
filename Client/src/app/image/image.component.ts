@@ -20,6 +20,7 @@ export class ImageComponent implements OnInit {
   killTags: string;
   newName: string;
   newComment: string;
+  newCollName: string;
   constructor( private route : ActivatedRoute, private router : Router , private dataService: DataService) { }
 
   ngOnInit() {
@@ -66,6 +67,11 @@ export class ImageComponent implements OnInit {
     this.dataService.renamePicture(this.id, this.newName).subscribe();
 
    
+  }
+
+  addToCollection() : void {
+    var newColl = this.newCollName.trim();
+    this.dataService.addPictureToNamedCollection(newColl, this.id)
   }
 
   

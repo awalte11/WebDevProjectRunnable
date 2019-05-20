@@ -113,7 +113,7 @@ export class EverythingDatastore {
 
   async updateNamedCollection(nameIn: string, updateInfo : any) {
     
-    return await this.collections.updateOne({ name: name}, updateInfo);
+    return await this.collections.updateOne({ name: nameIn}, updateInfo);
   }
 
  async createTag(name: string) {

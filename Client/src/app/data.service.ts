@@ -14,7 +14,8 @@ const httpOptions = {
   })
 };
 
-const target = 'https://project-tester.herokuapp.com/';
+const target = 'https://project-tester.herokuapp.com/';//for targetting heroku
+//const target = 'localhost:5000/';/ for full local deployment
 const targetApi = target + 'api/';
 @Injectable({
   providedIn: 'root'

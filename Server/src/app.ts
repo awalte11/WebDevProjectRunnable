@@ -155,10 +155,9 @@ function startServer(everythingDatastore: EverythingDatastore) {
 
   app.get('/api/pictures/:id', async (request: Request, response: Response, next) => {
      const id = request.params.id;
-     
      try {
 
-       const tag = await everythingDatastore.readOnePicture(id);
+       var tag = await everythingDatastore.readOnePicture(id);
       console.log("Tag is :" + tag);
       if (tag == null)//because *somehow* catch isn't working. damnit js.
         {
@@ -169,7 +168,9 @@ function startServer(everythingDatastore: EverythingDatastore) {
            });
        }
        else
-         response.json({ tag });
+         {
+           response.json({ tag });
+         }
      }
      catch
      {
@@ -180,6 +181,36 @@ function startServer(everythingDatastore: EverythingDatastore) {
         });
      }
   });
+
+  app.get('/api/picturesData/:id', async (request: Request, response: Response, next) => {
+    const id = request.params.id;
+    try {
+
+      var tag = await everythingDatastore.readOnePicture(id);
+     console.log("Tag is :" + tag);
+     if (tag == null)//because *somehow* catch isn't working. damnit js.
+       {
+         response.status(404).json({
+          "paramaterName" : "id",
+           "paramaterValue" : id,   
+           "errorText" : "No picture for this id."
+          });
+      }
+      else
+        {
+          tag.picture = null;
+          response.json({ tag });
+        }
+    }
+    catch
+    {
+     response.status(404).json({
+       "paramaterName" : "id",
+        "paramaterValue" : id,   
+        "errorText" : "Bad Id."
+       });
+    }
+ });
 
   app.get('/api/collections/:id', async (request: Request, response: Response, next) => {
     const id = request.params.id;

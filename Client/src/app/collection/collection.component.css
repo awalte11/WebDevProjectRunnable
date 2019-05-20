@@ -6,3 +6,12 @@
     margin-right: 01px;
     margin-left: 10px;
 }
+
+.title {
+    padding: 2px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 18px;
+    color: rgba(30, 22, 54, 0.6);
+    box-shadow: rgba(30, 22, 54, 0.4) 0 0px
+  }

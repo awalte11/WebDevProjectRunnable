@@ -2,19 +2,21 @@
   Get Pictures or Collections by Tag
 </p>
 <div *ngIf="tag!=null; else searchBlock">
-  {{tag}}
-  <ng-container *ngIf="findPictures">
-  <div *ngFor="let picture of pictures" class="frame">
-    <app-image [id]="picture._id"></app-image>
+  Search Term: {{tag}}
+  <div *ngIf="findPictures" class="frame">
+    Pictures
+    <div *ngFor="let picture of pictures" class="frame">
+      <app-image [id]="picture._id"></app-image>
+    </div>
   </div>
-  </ng-container>
-  <ng-container *ngIf="findCollections" >
+  <div *ngIf="findCollections" class="frame">
+    Collections
     <div *ngFor="let collection of collections" class="frame">
       <app-collection [id]="collection._id"></app-collection>
     </div>
-    </ng-container>
-    <br>
-    <button (click)="clear()">New Search</button>
+  </div>
+  <br>
+  <button (click)="clear()">New Search</button>
 </div>
 
 <ng-template #searchBlock>

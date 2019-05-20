@@ -3,11 +3,11 @@
 </ng-container>
 
 <ng-template #loaded>
-<p div *ngIf="details">
-  <strong>Image!</strong>
-</p>
-<br>
-<ng-container *ngIf="managing; else nameBlock">
+  <div class="title">
+    <strong>{{picture.name}}!</strong>
+</div>
+  <br>
+  <ng-container *ngIf="managing">
 
     <label>Name:
         <input [(ngModel)]="newName" placeholder={{picture.name}}/>
@@ -16,78 +16,59 @@
 
       <button (click)="Rename()">Rename</button>
     <br>
-    </ng-container>
-    <ng-template #nameBlock>
-        Title: {{picture.name}}
-        </ng-template>
-<br>
+  </ng-container>
 
-<ng-container *ngIf="managing; else commentBlock">
-
+  <ng-container *ngIf="managing; else commentBlock">
     <label>New Commentary:
-        <input [(ngModel)]="newComment" placeholder={{picture.comment}}/>
+      <input [(ngModel)]="newComment" placeholder={{picture.comment}}/>
+    </label>
 
+    <button (click)="reComment()">Change Comment</button>
+    <br>
+  </ng-container>
+  <ng-template #commentBlock>
+      Commentary: {{picture.comment}}
+  </ng-template>
+  <br>
+  Tags:
+  <ng-container *ngFor = "let tag of picture.tags">
+      {{ tag }},
+    </ng-container>
+  <div *ngIf="details">
+    <img src = {{img}} height="400" width="400">
+    <br> 
+    <br>
+    <br>
+    <ng-container *ngIf="managing; else notmanage">
+      <label>New Tags:
+        <input [(ngModel)]="newTags" placeholder=""/>
       </label>
 
-      <button (click)="reComment()">Change Comment</button>
-    <br>
+      <button (click)="AddTags()">Add Tags</button>
+      <br>
+      <label>Remove Tags:
+        <input [(ngModel)]="killTags" placeholder=""/>
+      </label>
+      <button (click)="KillTagsParse()">Remove These Tags</button>
+      <br>
+      <button (click)="manage(false)">Stop Managing Image</button>
+      <br>
+      <label>Add to a collection
+        <input [(ngModel)]="newCollName" placeholder=""/>
+      </label>
+
+      <button (click)="addToCollection()">Add Tags</button>
+      <br>
+      <br>
+      <br>
+      <br>
+
+      <button (click)="deleteImage()">Delete Image</button>
     </ng-container>
-    <ng-template #commentBlock>
-        Commentary: {{picture.comment}}
-        </ng-template>
-<br>
-<ng-container *ngFor = "let tag of picture.tags">
-    {{ tag }},
-  </ng-container>
-<div *ngIf="details">
-
-    <img src = {{img}} height="400" width="400">
-
-    <br>
-  Tags:
-  <br>
-
-
-  <br>
-  <ng-container *ngIf="managing; else notmanage">
-
-      <label>New Tags:
-          <input [(ngModel)]="newTags" placeholder=""/>
-
-        </label>
-
-        <button (click)="AddTags()">Add Tags</button>
-        <br>
-        <label>Remove Tags:
-          <input [(ngModel)]="killTags" placeholder=""/>
-
-        </label>
-
-        <button (click)="KillTagsParse()">Kill These Tags</button>
-        <br>
-        <button (click)="manage(false)">Stop Managing Image</button>
-        <br>
-        <label>Add to a collection
-          <input [(ngModel)]="newCollName" placeholder=""/>
-
-        </label>
-
-        <button (click)="addToCollection()">Add Tags</button>
-        <br>
-        <br>
-        <br>
-        <br>
-
-        <button (click)="deleteImage()">Delete Image</button>
-    </ng-container>
-
-  <ng-template #notmanage>
-  <button (click)="manage(true)">Manage Image</button>
-
-
-
-  </ng-template>
-</div>
+    <ng-template #notmanage>
+      <button (click)="manage(true)">Manage Image</button>
+    </ng-template>
+  </div>
 </ng-template>
 
 <div *ngIf=notLocal()>

@@ -1,20 +1,17 @@
-
+<div class="title">
+  {{collection.name}}
+</div>
 
 <br>
-<ng-container *ngIf="managing; else nameBlock">
-
+<ng-container *ngIf="managing">
     <label>Title: 
-        <input [(ngModel)]="newName" placeholder={{collection.name}}/>
-      
+        <input [(ngModel)]="newName" placeholder={{collection.name}}/>      
       </label>
       
       <button (click)="Rename()">Rename</button>
-    <br>
+    
     </ng-container>
-    <ng-template #nameBlock>
-        Title: {{collection.name}}
-    </ng-template>  
-<br>
+
 
 <ng-container *ngIf="managing; else commentBlock">
 
@@ -25,23 +22,22 @@
       
       <button (click)="reComment()">Change Comment</button>
     <br>
-    </ng-container>
+</ng-container>
     <ng-template #commentBlock>
-        Commentary: {{collection.comment}}
-        </ng-template>  
+      Commentary: {{collection.comment}}
+    </ng-template>  
 <br>
+Tags:  
+<ng-container *ngFor = "let tag of collection.tags">
+  {{ tag }},
+</ng-container>
+
 <div *ngIf="details">
   
     
     
-    <br>
-  Tags:
   <br>
-  
-  <ng-container *ngFor = "let tag of collection.tags">
-    {{ tag }},
-  </ng-container>
-  <br>
+
   <ng-container *ngIf="managing; else notmanage">
 
       <label>New Tags: 

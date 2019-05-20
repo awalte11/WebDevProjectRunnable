@@ -1,80 +1,78 @@
-
-
 <br>
 <ng-container *ngIf="managing; else nameBlock">
 
-    <label>Title: 
+    <label>Title:
         <input [(ngModel)]="newName" placeholder={{collection.name}}/>
-      
+
       </label>
-      
+
       <button (click)="Rename()">Rename</button>
     <br>
     </ng-container>
     <ng-template #nameBlock>
         Title: {{collection.name}}
-    </ng-template>  
+    </ng-template>
 <br>
 
 <ng-container *ngIf="managing; else commentBlock">
 
-    <label>New Commentary: 
+    <label>New Commentary:
         <input [(ngModel)]="newComment" placeholder={{collection.comment}}/>
-      
+
       </label>
-      
+
       <button (click)="reComment()">Change Comment</button>
     <br>
     </ng-container>
     <ng-template #commentBlock>
         Commentary: {{collection.comment}}
-        </ng-template>  
+        </ng-template>
 <br>
 <div *ngIf="details">
-  
-    
-    
+
+
+
     <br>
   Tags:
   <br>
-  
+
   <ng-container *ngFor = "let tag of collection.tags">
     {{ tag }},
   </ng-container>
   <br>
   <ng-container *ngIf="managing; else notmanage">
 
-      <label>New Tags: 
+      <label>New Tags:
           <input [(ngModel)]="newTags" placeholder=""/>
-        
+
         </label>
-        
+
         <button (click)="AddTags()">Add Tags</button>
         <br>
 
-        <label>Remove Tags: 
+        <label>Remove Tags:
           <input [(ngModel)]="killTags" placeholder=""/>
-        
+
         </label>
         <button (click)="KillTagsParse()">Delete These Tags</button>
         <br>
 
-        <label>Add Pictures: 
+        <label>Add Pictures:
             <input [(ngModel)]="newPics" placeholder=""/>
-          
+
           </label>
-          
+
           <button (click)="AddPictures()">Add Pictures</button>
           <br>
-  
-          <label>Remove Pictures: 
+
+          <label>Remove Pictures:
             <input [(ngModel)]="killPics" placeholder=""/>
-          
+
           </label>
           <button (click)="KillPictures()">Remove These Pictures</button>
           <br>
 
-        <button (click)="manage(false)">Stop Managing Collection</button>
+        <tab><button (click)="manage(false)">Stop Managing Collection</button>
         <br>
         <div *ngFor = "let picture of collection.pictures">
             {{picture.name}}
@@ -82,9 +80,8 @@
           </div>
         <br>
         <br>
-        <br>
-       
-        <button (click)="deleteCollection()">Delete Collection</button>
+
+        <tab><button (click)="deleteCollection()">Delete Collection</button><br>
     </ng-container>
 
   <ng-template #notmanage>
@@ -92,22 +89,11 @@
           {{picture.name}}
           <app-image [picture]="picture" [details]=false></app-image>
         </div>
-  <button (click)="manage(true)">Manage Collection</button>
+  <tab><tab><button (click)="manage(true)">Manage Collection</button><br>
 
-
-  
-  </ng-template>  
-
-  
+  </ng-template>
 </div>
-
-
-
-
-
-
 
 <div *ngIf=notLocal()>
-    <button (click)="goToCollection()">Go To Collection</button>
+    <br><tab><tab><button (click)="goToCollection()">Go To Collection</button><br>
 </div>
-

@@ -14,7 +14,8 @@ const httpOptions = {
   })
 };
 
-const target = 'https://project-tester.herokuapp.com/';
+const target = 'https://project-tester.herokuapp.com/';//for targetting heroku
+//const target = 'localhost:5000/';/ for full local deployment
 const targetApi = target + 'api/';
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,17 @@ export class DataService {
     return body || { };
   }
 
+  private isData404(res: Response) {
+    
+    return res.status == 404;
+  }
+
+  private trimArray(arr: String[]) {
+    arr.forEach(element => {
+      element.trim();
+    })
+    return arr;
+  }
   //Get all X methods start here
 
   GetAllCollections() : Observable<any>
@@ -96,6 +108,10 @@ export class DataService {
     return this.http.get(targetApi + 'pictures/' + id).pipe(map(this.extractData));
   }
 
+  doesTagExist(tag : string) {   
+    return this.http.get(targetApi + 'tags/' + tag).pipe(map(this.isData404));
+  }
+
   //get one tag does not exist. Client side has zero need for knowledge of tags as mongo-db objects rather than as strings.
 
   //Get all X matching programmed criteria starts here.
@@ -123,8 +139,8 @@ export class DataService {
     var body = {
       name : name,
       comment : comment,
-      addTags : addTags,
-      removeTags : removeTags
+      addTags : this.trimArray(addTags),
+      removeTags : this.trimArray(removeTags)
     }
     
     return this.http.patch(targetApi + 'pictures/' + id, body);
@@ -177,10 +193,10 @@ export class DataService {
     var body = {
       name : name,
       comment : comment,
-      addPictures : addPictures,
-      removePictures : removePictures,
-      addTags : addTags,
-      removeTags : removeTags
+      addPictures : this.trimArray(addPictures),
+      removePictures : this.trimArray(removePictures),
+      addTags : this.trimArray(addTags),
+      removeTags : this.trimArray(removeTags)
     }
     
     return this.http.patch(targetApi + 'collections/' + id, body);
@@ -263,11 +279,11 @@ export class DataService {
   //Create starts here
   CreateCollection(name : string,  comment : string, tags : string[], pictures: string[])
   {
-    this.http.post(targetApi + 'collections/', {
+    return this.http.post(targetApi + 'collections/', {
       name : name,
       comment : comment,
-      tags : tags,
-      pictures : pictures
+      tags : this.trimArray(tags),
+      pictures : this.trimArray(pictures)
     })
 
   }
@@ -279,7 +295,7 @@ export class DataService {
       name : name,
       picture : file,
       comments : comment,
-      tags : tags
+      tags : this.trimArray(tags)
 
     });
 

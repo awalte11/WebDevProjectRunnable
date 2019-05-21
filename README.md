@@ -13,15 +13,12 @@ Completed User Stories:
 #2: Tag
 #6: Delete Collections
 
-Works, but aren't pretty
 
-View All Collections
 #18: Upload image
 #13: Manage Picture
 #4: Collections
 #5: Tag Collections
 #14: Manage Collection
-
 #15: UI: Front page
 #3: Filter By Tag
 
@@ -31,27 +28,17 @@ No features not planned were included, strictly speaking. Various functions not 
 Local deployment: Pull the repo from github. Go to the client subdirectory. Run npm install. Run ng serve -o.
 If you desire a local *server* too, comment out line 17 of data.service, and decomment line 18. Then go the the repo root, run npm install, then npm start.
 
+ 
 
-Rudimentary Front end, and back end exists for the below
-
+The following have no support, but can be done the way you can do it with any right-clickable image or static URL.
 #10: Link To Images
-
-Back end support exists for: 
-
-
-
-
-
-
 #11: Download Images
 
 
 
 
-The following are pure front end, and not even begun:
+The following are dropped
 
-
-The following are probably dropped
 #1: Invite
 #7: Merge Collections
 #12: UI: User
